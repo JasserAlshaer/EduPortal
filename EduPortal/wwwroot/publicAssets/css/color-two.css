@@ -1,0 +1,20 @@
+
+.wm-color-two, .wm-colorhover-two:hover,.wm-header-two .wm-stripinfo li i,.wm-service-slider ul li:hover i,.wm-service-slider ul li:hover span,.wm-modren-courses figcaption a.wm-course-see-btn {
+    color: #fc822e;
+}
+.wm-bgcolor-two, .wm-bgcolorhover-two:hover,.wm-caption-two h1:before,.widget_gallery_two ul li a:after,.widget_gallery_two ul li a:before,.wm-fancytitle-two h2:before,
+.wm-coursespopular-list figcaption:before,.wm-parallex h2:before,.wm-modren-courses figcaption:before,.wm-latest-news figure figcaption:before,.widget_gallery_two ul li a:after,.widget_gallery_two ul li a:before {
+    background-color: #fc822e;
+}
+.wm-bordercolor-two, .wm-bordercolorhover-two:hover {
+    border-color: #fc822e;
+}
+
+
+/* ColorTwo */
+.wm-banner-addswrap h2,.wm-service-slider .slick-arrow:hover,.wm-thumb-testimonial .slick-arrow:hover {
+	color: #222845;
+}
+.wm-classic-button:hover,.wm-upcoming-event-slider .slick-arrow:hover {
+	background-color: #222845;
+}

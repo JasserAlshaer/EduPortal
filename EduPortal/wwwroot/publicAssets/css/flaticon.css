@@ -1,0 +1,273 @@
+@font-face {
+    font-family: 'icon';
+    src:    url('../fonts/icon749c.eot?wgt5fg');
+    src:    url('../fonts/icon749c.eot?wgt5fg#iefix') format('embedded-opentype'),
+        url('../fonts/icon749c.ttf?wgt5fg') format('truetype'),
+        url('../fonts/icon749c.woff?wgt5fg') format('woff'),
+        url('../fonts/icon749c.svg?wgt5fg#icon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="wmicon-"], [class*=" wmicon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.wmicon-tag:before {
+    content: "\e900";
+}
+.wmicon-tool:before {
+    content: "\e901";
+}
+.wmicon-pen:before {
+    content: "\e902";
+}
+.wmicon-lock:before {
+    content: "\e903";
+}
+.wmicon-symbol:before {
+    content: "\e904";
+}
+.wmicon-diploma:before {
+    content: "\e905";
+}
+.wmicon-tool2:before {
+    content: "\e906";
+}
+.wmicon-signs:before {
+    content: "\e907";
+}
+.wmicon-squares:before {
+    content: "\e908";
+}
+.wmicon-arrow:before {
+    content: "\e909";
+}
+.wmicon-three:before {
+    content: "\e90a";
+}
+.wmicon-paper:before {
+    content: "\e90b";
+}
+.wmicon-book:before {
+    content: "\e90c";
+}
+.wmicon-avatar:before {
+    content: "\e90d";
+}
+.wmicon-clock:before {
+    content: "\e90e";
+}
+.wmicon-check:before {
+    content: "\e90f";
+}
+.wmicon-megaphone:before {
+    content: "\e910";
+}
+.wmicon-shop:before {
+    content: "\e911";
+}
+.wmicon-tag2:before {
+    content: "\e912";
+}
+.wmicon-technology:before {
+    content: "\e913";
+}
+.wmicon-book2:before {
+    content: "\e914";
+}
+.wmicon-favorite:before {
+    content: "\e915";
+}
+.wmicon-mark:before {
+    content: "\e916";
+}
+.wmicon-logo:before {
+    content: "\e917";
+}
+.wmicon-symbols:before {
+    content: "\e918";
+}
+.wmicon-arrows:before {
+    content: "\e919";
+}
+.wmicon-web:before {
+    content: "\e91a";
+}
+.wmicon-symbol2:before {
+    content: "\e91b";
+}
+.wmicon-social:before {
+    content: "\e91c";
+}
+.wmicon-folder:before {
+    content: "\e91d";
+}
+.wmicon-time:before {
+    content: "\e91e";
+}
+.wmicon-interface:before {
+    content: "\e91f";
+}
+.wmicon-link:before {
+    content: "\e920";
+}
+.wmicon-arrows2:before {
+    content: "\e921";
+}
+.wmicon-people:before {
+    content: "\e922";
+}
+.wmicon-people2:before {
+    content: "\e923";
+}
+.wmicon-telephone:before {
+    content: "\e924";
+}
+.wmicon-editing:before {
+    content: "\e925";
+}
+.wmicon-medical:before {
+    content: "\e926";
+}
+.wmicon-technology2:before {
+    content: "\e927";
+}
+.wmicon-glasses:before {
+    content: "\e928";
+}
+.wmicon-medical2:before {
+    content: "\e929";
+}
+.wmicon-music:before {
+    content: "\e92a";
+}
+.wmicon-music2:before {
+    content: "\e92b";
+}
+.wmicon-music3:before {
+    content: "\e92c";
+}
+.wmicon-music4:before {
+    content: "\e92d";
+}
+.wmicon-music5:before {
+    content: "\e92e";
+}
+.wmicon-music6:before {
+    content: "\e92f";
+}
+.wmicon-music7:before {
+    content: "\e930";
+}
+.wmicon-music8:before {
+    content: "\e931";
+}
+.wmicon-arrows3:before {
+    content: "\e932";
+}
+.wmicon-tool3:before {
+    content: "\e933";
+}
+.wmicon-time2:before {
+    content: "\e934";
+}
+.wmicon-nature:before {
+    content: "\e935";
+}
+.wmicon-social2:before {
+    content: "\e936";
+}
+.wmicon-interface2:before {
+    content: "\e937";
+}
+.wmicon-vimeo:before {
+    content: "\e938";
+}
+.wmicon-social3:before {
+    content: "\e939";
+}
+.wmicon-social4:before {
+    content: "\e93a";
+}
+.wmicon-social5:before {
+    content: "\e93b";
+}
+.wmicon-letter:before {
+    content: "\e93c";
+}
+.wmicon-phone:before {
+    content: "\e93d";
+}
+.wmicon-pin:before {
+    content: "\e93e";
+}
+.wmicon-web2:before {
+    content: "\e93f";
+}
+.wmicon-symbol3:before {
+    content: "\e940";
+}
+.wmicon-black:before {
+    content: "\e941";
+}
+.wmicon-folder2:before {
+    content: "\e942";
+}
+.wmicon-social6:before {
+    content: "\e943";
+}
+.wmicon-social7:before {
+    content: "\e944";
+}
+.wmicon-shape:before {
+    content: "\e945";
+}
+.wmicon-web3:before {
+    content: "\e946";
+}
+.wmicon-technology3:before {
+    content: "\e947";
+}
+.wmicon-computer:before {
+    content: "\e948";
+}
+.wmicon-science:before {
+    content: "\e949";
+}
+.wmicon-school:before {
+    content: "\e94a";
+}
+.wmicon-money:before {
+    content: "\e94b";
+}
+.wmicon-suitcase:before {
+    content: "\e94c";
+}
+.wmicon-arrows4:before {
+    content: "\e94d";
+}
+.wmicon-search:before {
+    content: "\e94e";
+}
+.wmicon-clock2:before {
+    content: "\e94f";
+}
+.wmicon-technology4:before {
+    content: "\e950";
+}
+.wmicon-location:before {
+    content: "\e951";
+}
+

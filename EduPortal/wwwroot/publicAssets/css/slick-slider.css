@@ -1,0 +1,119 @@
+
+.slick-slider {
+    -moz-user-select: none;
+    box-sizing: border-box;
+    display: block;
+}
+.slick-list {
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+}
+.slick-list:focus {
+    outline: medium none;
+}
+.slick-list.dragging {
+    cursor: pointer;
+}
+.slick-slider .slick-track, .slick-slider .slick-list {
+    transform: translate3d(0px, 0px, 0px);
+}
+.slick-track {
+    display: block;
+    left: 0;
+    position: relative;
+    top: 0;
+}
+.slick-track::before, .slick-track::after {
+    content: "";
+    display: table;
+}
+.slick-track::after {
+    clear: both;
+}
+.slick-loading .slick-track {
+    visibility: hidden;
+}
+.slick-slide {
+    display: none;
+    float: left;
+    height: 100%;
+    min-height: 1px;
+}
+[dir="rtl"] .slick-slide {
+    float: right;
+}
+.slick-slide img {
+    display: block;
+}
+.slick-slide.slick-loading img {
+    display: none;
+}
+.slick-slide.dragging img {
+    pointer-events: none;
+}
+.slick-initialized .slick-slide {
+    display: block;
+}
+.slick-loading .slick-slide {
+    visibility: hidden;
+}
+.slick-vertical .slick-slide {
+    display: block;
+    height: auto;
+}
+.slick-arrow.slick-hidden {
+    display: none;
+}
+.slick-arrow {
+    cursor: pointer;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    z-index: 9;
+}
+.slick-arrow.slick-arrow-left i {
+	display: inline-block;
+	margin-top: 1px;
+	-webkit-transform: scale(-1);
+	   -moz-transform: scale(-1);
+	    -ms-transform: scale(-1);
+	     -o-transform: scale(-1);
+	        transform: scale(-1);
+}
+.slick-arrow.slick-arrow-right {
+    left: auto;
+    right: 0px;
+}
+.slick-dots {
+    bottom: 43px;
+    right: 0px;
+    left: 0px;
+    position: absolute;
+    z-index: 40;
+    width: 1170px;
+    text-align: left;
+    margin: 0 auto;
+}
+.slick-dots li {
+    display: inline-block;
+    list-style: none;
+    margin-left: 6px;
+}
+.slick-dots li:first-child {
+    margin-left: 0;
+}
+.slick-dots li button {
+    background-color: transparent;
+    border: 2px solid #585551;
+    float: left;
+    height: 14px;
+    text-indent: -9999px;
+    width: 14px;
+    border-radius: 100%;
+}
+.slick-dots li.slick-active button {
+    border-color: #ffffff;
+}

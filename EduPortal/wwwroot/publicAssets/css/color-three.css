@@ -1,0 +1,34 @@
+
+.wm-color-three, .wm-colorhover-three:hover,.wm-header-three .wm-stripinfo li,.wm-header-three .wm-login-section li a,.wm-header-three .wm-megamenu li h4,.wm-footer-three .wm-footer-widget-title h2,
+.widget_contact_form form input[type="submit"],.wm_widget_navlist ul li a:before,.wm_widget_navlist ul li:hover a,.courses-options li a:hover,ul li:hover .wm-eventmedium-text h5 a,
+ul li:hover .wm-event-featured-text h5 a,.wm-modren-color figcaption a.wm-course-see-btn,.wm-recent-list-slider .slick-arrow,.wm-grid-caption a,.wm-readarticle-btn,.blogpost-options li a:hover,
+.wm-testimonial-navslider .slick-arrow,.wm-partners-title-two h2,.wm-partners-slider-two .slick-arrow,.wm-contact-main-color .wm-contact-service-two ul li h5,.wm-contact-main-color .contact-social-icon li i {
+    color: #3498db;
+}
+.wm-bgcolor-three, .wm-bgcolorhover-three:hover,.wm-change-bgcolor .wm-modallogin-form input[type="submit"],.left-modalbox .wm-modallogin-form input[type="submit"],.wm-header-number:before,
+.wm-readarticle-btn:hover,.wm-subscribe-color.wm-subscribe-form form input[type="submit"],.wm-contact-main-color .wm-ctservice-icon {
+    background-color: #3498db;
+}
+.wm-bordercolor-three, .wm-bordercolorhover-three:hover,.widget_contact_form form input[type="submit"],.wm-readarticle-btn {
+    border-color: #3498db;
+}
+
+
+/* ColorTwo */
+.wm-header-three .wm-stripinfo li i,.wm-header-three .wm-login-section li a i,.wm-search-btn,.wm-header-three .navbar-nav > li:hover > a,
+.wm-header-three .wm-megalist li:hover a,.wm-header-three .wm-dropdown-menu > li:hover > a,.wm-header-three .navbar-nav > li:hover > a,.wm-eventmedium-text time i,
+.wm-event-featured-text time i,.wm-contact-main-color .contact-social-icon li:hover i {
+	color: #ffb400;
+}
+
+.wm-header-number,.wm-header-number:after,.wm-header-three .navbar-nav > li > a:before,.wm-caption-three h1:before,.wm-footer-three .wm-footer-widget-title h2:before,
+.wm-hover-link:before,.wm-fancy-title-three span:before,.wm-courses-medium figure span,.wm-courses-grid figure span,.wm-courses-grid figure figcaption:before,.wm-linkhover:before,
+.wm-modren-color figcaption:before,.wm-blog-grid figure figcaption:before,.wm-subscribe-color.wm-subscribe-form h2:before {
+	background-color: #ffb400;
+}
+.widget_contact_list ul li.wm-social-btn:hover a,.courses-options {
+	border-color: #ffb400;
+}
+.wm-recent-list-slider .slick-arrow:hover,.wm-testimonial-navslider .slick-arrow:hover,.wm-partners-slider-two .slick-arrow:hover {
+	box-shadow: 0px 0px 0px 2px #3498db inset;
+}
