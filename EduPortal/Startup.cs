@@ -66,7 +66,7 @@ namespace EduPortal
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Main}/{action=Index}");
                 endpoints.MapRazorPages();
             });
         }
