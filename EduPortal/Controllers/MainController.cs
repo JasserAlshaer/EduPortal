@@ -8,5 +8,29 @@ namespace EduPortal.Controllers
         {
             return View();
         }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult Contactus()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult Spectilizations()
+        {
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

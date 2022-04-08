@@ -8,5 +8,38 @@ namespace EduPortal.Controllers
         {
             return View();
         }
+
+        public IActionResult Sessions()
+        {
+            return View();
+        }
+
+        public IActionResult SessionInfo()
+        {
+            return View();
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        public IActionResult QuestionBank()
+        {
+            return View();
+        }
+
+        public IActionResult Calender()
+        {
+            return View();
+        }
+        public IActionResult ToDoList()
+        {
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            return View();
+        }
     }
 }
