@@ -4,3 +4,97 @@
 @{
       Layout = "_LayoutStudent";
 }
+<div class="loader"></div>
+
+
+<!-- Example single danger button -->
+<br />
+<br />
+<section class="section">
+    <div class="section-body">
+        <div class="container-fluid">
+            @*            <div style="display:block;">
+                <form asp-action="FillterAttendence" method="post">
+                    <div class="row">
+                    <div class="col-5 form-group">
+                      <label>Date From</label>
+                      <input type="date" class="form-control">
+                    </div>
+                    <div class="col-5 form-group">
+                      <label>Date To</label>
+                      <input type="date" class="form-control">
+                    </div>
+                    <div class="col-2 form-group">
+                      <br />
+                     <button type="submit" class="btn btn-primary">Search</button>
+                     </div>
+                   </div>
+                </form>
+            </div>*@
+        </div>
+        <div class="row">
+
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="table-title">
+                           
+                           
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <a    onclick="exportTableToExcel('tab', 'members-data')"  class="btn btn-lg btn-outline-success"><i class="fas fa-file-csv"></i><span>Export To Excel</span></a>
+
+                                    
+                                    <span></span>
+                                    <a href="#" id="btPrint" onclick="createPDF()" class="btn btn-lg btn-outline-danger"><i class="fas fa-file-pdf"></i> <span>Export to PDF</span></a>
+                                    <span></span>
+                                    <a href="#" onclick="Export2Word('tab', 'word-content');" class="btn btn-lg btn-outline-info"><i class="fas fa-file-word"></i> <span>Export to Word</span></a>
+                                    <script src="~/js/exportReports.js"></script>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <h2 style="display:inline-block;">Action <b>Management</b></h2>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                     data-target=".bd-example-modal-lg" style="float:right;">Add new action</button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div  id="tab" class="table-responsive">
+                            <table class="table table-striped table-md">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Dateap</th>
+                                    <th>Time</th>
+                                    <th>Note</th>
+                                    <th>Isaccept</th>
+                                    <th>Patientssn</th>
+                                    <th>Employeessn</th>
+                                    <th>Clinicid</th>
+                                    <th>Doctornote</th>
+                                </tr>
+                                @foreach (var record in Model)
+                                {
+                                    <tr>
+                                        <td>@record.Id</td>
+                                        <td>@record.Dateap</td>
+                                        <td>@record.Time</td>
+                                        <td>@record.Note</td>
+                                        <td>@record.Isaccept</td>
+                                        <td>@record.Patientssn</td>
+                                        <td>@record.Employeessn</td>
+                                        <td>@record.Clinicid</td>
+                                        <td>@record.Doctornote</td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -38,6 +38,14 @@ namespace EduPortal.Controllers
         {
             return View();
         }
+        public IActionResult Task()
+        {
+            return View();
+        }
+        public IActionResult Material()
+        {
+            return View();
+        }
         public IActionResult Logout()
         {
             return View();
