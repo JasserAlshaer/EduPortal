@@ -14,6 +14,9 @@ namespace EduPortal.Models
             Exam = new HashSet<Exam>();
             Goals = new HashSet<Goals>();
             InverseCourseAssociated = new HashSet<Course>();
+            PreRequestCourse = new HashSet<PreRequest>();
+            PreRequestPrevouisCourse = new HashSet<PreRequest>();
+            Question = new HashSet<Question>();
             Session = new HashSet<Session>();
             Topic = new HashSet<Topic>();
         }
@@ -34,6 +37,9 @@ namespace EduPortal.Models
         public virtual ICollection<Exam> Exam { get; set; }
         public virtual ICollection<Goals> Goals { get; set; }
         public virtual ICollection<Course> InverseCourseAssociated { get; set; }
+        public virtual ICollection<PreRequest> PreRequestCourse { get; set; }
+        public virtual ICollection<PreRequest> PreRequestPrevouisCourse { get; set; }
+        public virtual ICollection<Question> Question { get; set; }
         public virtual ICollection<Session> Session { get; set; }
         public virtual ICollection<Topic> Topic { get; set; }
     }

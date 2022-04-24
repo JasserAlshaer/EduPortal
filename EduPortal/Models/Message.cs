@@ -9,13 +9,22 @@ namespace EduPortal.Models
 {
     public partial class Message
     {
-        public int? MessageId { get; set; }
-        public int? SenderId { get; set; }
-        public bool? IsSenderTeacher { get; set; }
+        public Message()
+        {
+            Chats = new HashSet<Chats>();
+        }
+
+        public int MessageId { get; set; }
+        public int StudentId { get; set; }
+        public int? TeacherId { get; set; }
         public string Text { get; set; }
         public string AttachedImage { get; set; }
         public string AttachedVideo { get; set; }
         public string AttachedFile { get; set; }
         public DateTime? MassageDate { get; set; }
+
+        public virtual Student Student { get; set; }
+        public virtual Teacher Teacher { get; set; }
+        public virtual ICollection<Chats> Chats { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace EduPortal.Models
     {
         public Exam()
         {
+            ExamQuestion = new HashSet<ExamQuestion>();
             StudentTakeExam = new HashSet<StudentTakeExam>();
         }
 
@@ -24,6 +25,7 @@ namespace EduPortal.Models
         public int? CourseId { get; set; }
 
         public virtual Course Course { get; set; }
+        public virtual ICollection<ExamQuestion> ExamQuestion { get; set; }
         public virtual ICollection<StudentTakeExam> StudentTakeExam { get; set; }
     }
 }

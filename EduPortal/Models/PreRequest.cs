@@ -12,5 +12,8 @@ namespace EduPortal.Models
         public int PreRequestId { get; set; }
         public int? CourseId { get; set; }
         public int? PrevouisCourseId { get; set; }
+
+        public virtual Course Course { get; set; }
+        public virtual Course PrevouisCourse { get; set; }
     }
 }

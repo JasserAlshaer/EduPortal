@@ -19,12 +19,12 @@ namespace EduPortal.Models
         {
         }
 
-        public virtual DbSet<AcadmicStatus> AcadmicStatus { get; set; }
         public virtual DbSet<ChatGroup> ChatGroup { get; set; }
         public virtual DbSet<Chats> Chats { get; set; }
         public virtual DbSet<Collage> Collage { get; set; }
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<Exam> Exam { get; set; }
+        public virtual DbSet<ExamQuestion> ExamQuestion { get; set; }
         public virtual DbSet<Goals> Goals { get; set; }
         public virtual DbSet<Login> Login { get; set; }
         public virtual DbSet<Material> Material { get; set; }
@@ -34,10 +34,10 @@ namespace EduPortal.Models
         public virtual DbSet<PreRequest> PreRequest { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<QuestionType> QuestionType { get; set; }
-        public virtual DbSet<RegistrationStatus> RegistrationStatus { get; set; }
         public virtual DbSet<Schedule> Schedule { get; set; }
         public virtual DbSet<Session> Session { get; set; }
         public virtual DbSet<Spectialization> Spectialization { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<StudentAttendanceRecord> StudentAttendanceRecord { get; set; }
         public virtual DbSet<StudentTakeExam> StudentTakeExam { get; set; }
@@ -46,32 +46,21 @@ namespace EduPortal.Models
         public virtual DbSet<StudentsSession> StudentsSession { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<Teacher> Teacher { get; set; }
+        public virtual DbSet<ToDoList> ToDoList { get; set; }
         public virtual DbSet<Topic> Topic { get; set; }
+        public virtual DbSet<UserChatGroup> UserChatGroup { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=TAH-LAP-JOR195\\SQLEXPRESS;Database=EduPortal;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-D80NIJG\\SQLEXPRESS;Database=EduPortal;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AcadmicStatus>(entity =>
-            {
-                entity.Property(e => e.AcadmicStatusId).HasColumnName("AcadmicStatusID");
-
-                entity.Property(e => e.ArabicName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<ChatGroup>(entity =>
             {
                 entity.Property(e => e.ChatGroupId).HasColumnName("ChatGroupID");
@@ -106,6 +95,11 @@ namespace EduPortal.Models
                     .WithMany(p => p.Chats)
                     .HasForeignKey(d => d.ChatGroupId)
                     .HasConstraintName("FK_Chats_ChatGroup");
+
+                entity.HasOne(d => d.Message)
+                    .WithMany(p => p.Chats)
+                    .HasForeignKey(d => d.MessageId)
+                    .HasConstraintName("FK_Chats_Message");
             });
 
             modelBuilder.Entity<Collage>(entity =>
@@ -164,6 +158,25 @@ namespace EduPortal.Models
                     .HasConstraintName("FK_Exam_Course");
             });
 
+            modelBuilder.Entity<ExamQuestion>(entity =>
+            {
+                entity.Property(e => e.ExamQuestionId).HasColumnName("ExamQuestionID");
+
+                entity.Property(e => e.ExamId).HasColumnName("ExamID");
+
+                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.ExamQuestion)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_ExamQuestion_Exam");
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.ExamQuestion)
+                    .HasForeignKey(d => d.QuestionId)
+                    .HasConstraintName("FK_ExamQuestion_Question");
+            });
+
             modelBuilder.Entity<Goals>(entity =>
             {
                 entity.Property(e => e.ArabicDescription)
@@ -192,9 +205,6 @@ namespace EduPortal.Models
 
             modelBuilder.Entity<Login>(entity =>
             {
-                entity.HasIndex(e => e.UniversityId)
-                    .HasName("IX_Login");
-
                 entity.Property(e => e.LoginId).HasColumnName("LoginID");
 
                 entity.Property(e => e.ConnectionString).IsUnicode(false);
@@ -208,6 +218,20 @@ namespace EduPortal.Models
                 entity.Property(e => e.LastLogout).HasColumnType("datetime");
 
                 entity.Property(e => e.Password).IsUnicode(false);
+
+                entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+                entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
+
+                entity.HasOne(d => d.Student)
+                    .WithMany(p => p.Login)
+                    .HasForeignKey(d => d.StudentId)
+                    .HasConstraintName("FK_Login_Student");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.Login)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_Login_Teacher");
             });
 
             modelBuilder.Entity<Material>(entity =>
@@ -238,7 +262,7 @@ namespace EduPortal.Models
 
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.MessageId).HasColumnName("MessageID");
 
                 entity.Property(e => e.AttachedFile).IsUnicode(false);
 
@@ -246,13 +270,22 @@ namespace EduPortal.Models
 
                 entity.Property(e => e.AttachedVideo).IsUnicode(false);
 
-                entity.Property(e => e.IsSenderTeacher).HasColumnName("isSenderTeacher");
-
                 entity.Property(e => e.MassageDate).HasColumnType("datetime");
 
-                entity.Property(e => e.MessageId).HasColumnName("MessageID");
+                entity.Property(e => e.StudentId).HasColumnName("StudentID");
 
-                entity.Property(e => e.SenderId).HasColumnName("SenderID");
+                entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
+
+                entity.HasOne(d => d.Student)
+                    .WithMany(p => p.Message)
+                    .HasForeignKey(d => d.StudentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_Student");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.Message)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_Message_Teacher");
             });
 
             modelBuilder.Entity<Metting>(entity =>
@@ -290,20 +323,44 @@ namespace EduPortal.Models
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
 
                 entity.Property(e => e.PrevouisCourseId).HasColumnName("PrevouisCourseID");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.PreRequestCourse)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_PreRequest_Course");
+
+                entity.HasOne(d => d.PrevouisCourse)
+                    .WithMany(p => p.PreRequestPrevouisCourse)
+                    .HasForeignKey(d => d.PrevouisCourseId)
+                    .HasConstraintName("FK_PreRequest_Course1");
             });
 
             modelBuilder.Entity<Question>(entity =>
             {
                 entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
 
+                entity.Property(e => e.CourseId).HasColumnName("CourseID");
+
                 entity.Property(e => e.QuestionTypeId).HasColumnName("QuestionTypeID");
 
+                entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
+
                 entity.Property(e => e.Text).IsUnicode(false);
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Question)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_Question_Course");
 
                 entity.HasOne(d => d.QuestionType)
                     .WithMany(p => p.Question)
                     .HasForeignKey(d => d.QuestionTypeId)
                     .HasConstraintName("FK_Question_QuestionType");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.Question)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_Question_Teacher");
             });
 
             modelBuilder.Entity<QuestionType>(entity =>
@@ -311,19 +368,6 @@ namespace EduPortal.Models
                 entity.Property(e => e.QuestionTypeId).HasColumnName("QuestionTypeID");
 
                 entity.Property(e => e.Type)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<RegistrationStatus>(entity =>
-            {
-                entity.Property(e => e.RegistrationStatusId).HasColumnName("RegistrationStatusID");
-
-                entity.Property(e => e.ArabicName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
@@ -391,11 +435,22 @@ namespace EduPortal.Models
                     .HasConstraintName("FK_Spectialization_Collage");
             });
 
+            modelBuilder.Entity<Status>(entity =>
+            {
+                entity.Property(e => e.StatusId).HasColumnName("StatusID");
+
+                entity.Property(e => e.ArabicName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.Property(e => e.StudentId).HasColumnName("StudentID");
-
-                entity.Property(e => e.AcadmicStatusId).HasColumnName("AcadmicStatusID");
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
@@ -411,24 +466,19 @@ namespace EduPortal.Models
                     .HasMaxLength(12)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RegistrationStatusId).HasColumnName("RegistrationStatusID");
-
                 entity.Property(e => e.SpectializationId).HasColumnName("SpectializationID");
 
-                entity.HasOne(d => d.AcadmicStatus)
-                    .WithMany(p => p.Student)
-                    .HasForeignKey(d => d.AcadmicStatusId)
-                    .HasConstraintName("FK_Student_AcadmicStatus");
-
-                entity.HasOne(d => d.RegistrationStatus)
-                    .WithMany(p => p.Student)
-                    .HasForeignKey(d => d.RegistrationStatusId)
-                    .HasConstraintName("FK_Student_RegistrationStatus");
+                entity.Property(e => e.StatusId).HasColumnName("StatusID");
 
                 entity.HasOne(d => d.Spectialization)
                     .WithMany(p => p.Student)
                     .HasForeignKey(d => d.SpectializationId)
                     .HasConstraintName("FK_Student_Spectialization");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Student)
+                    .HasForeignKey(d => d.StatusId)
+                    .HasConstraintName("FK_Student_Status");
             });
 
             modelBuilder.Entity<StudentAttendanceRecord>(entity =>
@@ -605,6 +655,33 @@ namespace EduPortal.Models
                     .HasConstraintName("FK_Teacher_Spectialization");
             });
 
+            modelBuilder.Entity<ToDoList>(entity =>
+            {
+                entity.Property(e => e.ToDoListId).HasColumnName("ToDoListID");
+
+                entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.Property(e => e.DoneAt).HasColumnType("datetime");
+
+                entity.Property(e => e.StartAt).HasColumnType("datetime");
+
+                entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+                entity.Property(e => e.TaskTitle).HasMaxLength(500);
+
+                entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
+
+                entity.HasOne(d => d.Student)
+                    .WithMany(p => p.ToDoList)
+                    .HasForeignKey(d => d.StudentId)
+                    .HasConstraintName("FK_ToDoList_Student");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.ToDoList)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_ToDoList_Teacher");
+            });
+
             modelBuilder.Entity<Topic>(entity =>
             {
                 entity.Property(e => e.TopicId).HasColumnName("TopicID");
@@ -631,6 +708,33 @@ namespace EduPortal.Models
                     .WithMany(p => p.Topic)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Topic_Course");
+            });
+
+            modelBuilder.Entity<UserChatGroup>(entity =>
+            {
+                entity.Property(e => e.UserChatGroupId).HasColumnName("UserChatGroupID");
+
+                entity.Property(e => e.ChatGroupId).HasColumnName("ChatGroupID");
+
+                entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+                entity.Property(e => e.TacherId).HasColumnName("TacherID");
+
+                entity.HasOne(d => d.ChatGroup)
+                    .WithMany(p => p.UserChatGroup)
+                    .HasForeignKey(d => d.ChatGroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserChatGroup_ChatGroup");
+
+                entity.HasOne(d => d.Student)
+                    .WithMany(p => p.UserChatGroup)
+                    .HasForeignKey(d => d.StudentId)
+                    .HasConstraintName("FK_UserChatGroup_Student");
+
+                entity.HasOne(d => d.Tacher)
+                    .WithMany(p => p.UserChatGroup)
+                    .HasForeignKey(d => d.TacherId)
+                    .HasConstraintName("FK_UserChatGroup_Teacher");
             });
 
             OnModelCreatingPartial(modelBuilder);

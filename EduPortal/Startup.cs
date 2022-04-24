@@ -38,6 +38,7 @@ namespace EduPortal
             services.AddDbContext<EduPortalContext>(options =>
               options.UseSqlServer(
                   Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,9 +57,9 @@ namespace EduPortal
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

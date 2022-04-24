@@ -7,13 +7,15 @@ using System.Collections.Generic;
 
 namespace EduPortal.Models
 {
-    public partial class Chats
+    public partial class UserChatGroup
     {
-        public int ChatsId { get; set; }
-        public int? ChatGroupId { get; set; }
-        public int? MessageId { get; set; }
+        public int UserChatGroupId { get; set; }
+        public int? StudentId { get; set; }
+        public int? TacherId { get; set; }
+        public int ChatGroupId { get; set; }
 
         public virtual ChatGroup ChatGroup { get; set; }
-        public virtual Message Message { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual Teacher Tacher { get; set; }
     }
 }
