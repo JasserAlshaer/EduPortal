@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EduPortal.Controllers
 {
@@ -42,7 +45,7 @@ namespace EduPortal.Controllers
 
         public IActionResult Sessions()
         {
-            return View();
+            return View(_context.Session.Where(s=>s.TeacherId== HttpContext.Session.GetInt32("Id")).ToList());
         }
 
         public IActionResult SessionInfo(int id)
@@ -106,7 +109,7 @@ namespace EduPortal.Controllers
 
         public IActionResult QuestionDetails(int id)
         {
-            ViewBag.Options = _context.Option.Where(x => x.QuestionId == id).DefaultIfEmpty().ToList();
+            ViewBag.Options = _context.Option.DefaultIfEmpty().ToList();
             return View(_context.Question.Where(x => x.CourseId == id).ToList());
         }
 
@@ -117,21 +120,78 @@ namespace EduPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult InsertQuestion(string title)
+        public IActionResult InsertQuestion(string title,int courseId,bool multipleAnswers,int typeId)
+            
         {
             //Insert options and Question
-            return View();
+            Question question = new Question();
+            question.CourseId = courseId;
+            question.Text= title;
+            question.IsHaveMultipleCorrectAnswer = multipleAnswers;
+            question.QuestionTypeId = typeId;
+            question.TeacherId = HttpContext.Session.GetInt32("Id");
+            question.IsActive = true;
+            _context.Add(question);
+            _context.SaveChanges();
+
+
+
+            return RedirectToAction("QuestionDetails");
         }
 
+        public IActionResult InsertOption()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult InsertOption(string answer,bool iscorrect)
+        {
+            Option option = new Option();
+            option.QuestionId = _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
+            option.Answer = answer;
+            option.IsCorrect = iscorrect;
+            _context.Add(option);
+            _context.SaveChanges();
+            return RedirectToAction("QuestionDetails");
+        }
         public IActionResult InsertTask()
         {
 
             return View();
         }
         [HttpPost]
-        public IActionResult InsertTask(string title)
+        public async Task<IActionResult> InsertTask(string title,string note,int mark,int weight,IFormFile taskFile
+            ,int sessionId,bool lastSubmit,DateTime start, DateTime end, DateTime lastdate)
         {
-            //Insert options and Question
+            if (taskFile != null)
+            {
+                String wRootPath = _env.WebRootPath;
+                String fileName = Guid.NewGuid().ToString() + "_" + taskFile.FileName;
+
+                var path1 = Path.Combine(wRootPath + "/Uploads", fileName);
+
+                using (var filestream = new FileStream(path1, FileMode.Create))
+                {
+                    await taskFile.CopyToAsync(filestream);
+                }
+                Models.Task task = new Models.Task();
+                task.Title = title;
+                task.Note = note;
+                task.Mark = mark;
+                task.Weight = weight;
+                task.FilePath = fileName;
+                task.SessionId = sessionId;
+                task.IsAllowLateSubmmition = lastSubmit;
+                task.StartAt = start;
+                task.EndAt = end;   
+                task.LastAllowedSubmmation = lastdate;
+
+                _context.Add(task);
+                _context.SaveChanges();
+
+
+            }
+           
             return View();
         }
         public IActionResult AddToDo()
@@ -139,23 +199,79 @@ namespace EduPortal.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddToDo(string title)
+        public IActionResult AddToDo(string title,string desc,bool isdone,DateTime start,DateTime end
+            ,int priority)
         {
-            return View();
+            ToDoList doList= new ToDoList();
+
+            doList.TaskTitle = title;
+            doList.Description = desc;
+            doList.IsDone = isdone;
+            doList.StartAt = start;
+            doList.DoneAt = end;
+            doList.Priority = priority;
+            doList.StudentId = null;
+            doList.TeacherId = HttpContext.Session.GetInt32("Id");
+             _context.Add(doList);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
-        public IActionResult DeleteToDo()
+        public IActionResult DeleteToDo(int id)
         {
-            return View();
+            var item=_context.ToDoList.Where(x=>x.ToDoListId==id).First();
+            if (item != null)
+            {
+                _context.Remove(item);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+           
         }
-        public IActionResult UpdateToDo()
+        public IActionResult UpdateToDo(int id )
         {
-            return View();
+            var item = _context.ToDoList.Where(x => x.ToDoListId == id).First();
+            if (item != null)
+            {
+                return View(item);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
-        public IActionResult UpdateToDo(int id)
+        public IActionResult UpdateToDo(int id,string title, string desc, bool isdone, DateTime start, DateTime end
+            , int priority)
         {
-            return View();
+            var doList = _context.ToDoList.Where(x => x.ToDoListId == id).First();
+            if (doList != null)
+            {
+                doList.TaskTitle = title;
+                doList.Description = desc;
+                doList.IsDone = isdone;
+                doList.StartAt = start;
+                doList.DoneAt = end;
+                doList.Priority = priority;
+                doList.StudentId = null;
+                doList.TeacherId = HttpContext.Session.GetInt32("Id");
+                _context.Add(doList);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+           
+
+           
         }
 
 
