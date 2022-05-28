@@ -158,6 +158,10 @@ namespace EduPortal.Controllers
             return View();
         }
 
+        public IActionResult UsersMassages()
+        {
+            return View();
+        }
 
         public IActionResult GetMassagesInChatGroup()
         {
