@@ -207,6 +207,11 @@ namespace EduPortal.Controllers
             return View();
         }
 
+        
+        public IActionResult Marks()
+        {
+            return View();
+        }
         public async Task<IActionResult> Exam(int id)
         {
             //List<Options> options = _context.Options.Where(recprd => recprd.ExamId == id).ToList();
