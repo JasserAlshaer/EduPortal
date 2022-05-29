@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -187,15 +188,76 @@ namespace EduPortal.Controllers
         {
             return View();
         }
-        public IActionResult DeleteToDo()
+        [HttpPost]
+        public IActionResult AddToDo(string title, string desc, bool isdone, DateTime start, DateTime end
+            , int priority)
         {
-            return View();
-        }
-        public IActionResult UpdateToDo()
-        {
-            return View();
-        }
+            ToDoList doList = new ToDoList();
 
+            doList.TaskTitle = title;
+            doList.Description = desc;
+            doList.IsDone = isdone;
+            doList.StartAt = start;
+            doList.DoneAt = end;
+            doList.Priority = priority;
+            doList.TeacherId = null; 
+            doList.StudentId = HttpContext.Session.GetInt32("Id");
+            _context.Add(doList);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult DeleteToDo(int id)
+        {
+            var item = _context.ToDoList.Where(x => x.ToDoListId == id).First();
+            if (item != null)
+            {
+                _context.Remove(item);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        public IActionResult UpdateToDo(int id)
+        {
+            var item = _context.ToDoList.Where(x => x.ToDoListId == id).First();
+            if (item != null)
+            {
+                return View(item);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpPost]
+        public IActionResult UpdateToDo(int id, string title, string desc, bool isdone, DateTime start, DateTime end
+            , int priority) 
+        {
+            var doList = _context.ToDoList.Where(x => x.ToDoListId == id).First();
+            if (doList != null)
+            {
+                doList.TaskTitle = title;
+                doList.Description = desc;
+                doList.IsDone = isdone;
+                doList.StartAt = start;
+                doList.DoneAt = end;
+                doList.Priority = priority;
+                doList.TeacherId = null;
+                doList.StudentId = HttpContext.Session.GetInt32("Id");
+                _context.Add(doList);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
         public IActionResult GetMassagesInChatGroup()
         {
@@ -210,6 +272,32 @@ namespace EduPortal.Controllers
         
         public IActionResult Marks()
         {
+            return View();
+        }
+        public IActionResult UploadTask()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadTask(string Note, IFormFile taskFile)
+        {
+            if (taskFile != null)
+            {
+                String wRootPath = _env.WebRootPath;
+                String fileName = Guid.NewGuid().ToString() + "_" + taskFile.FileName;
+
+                var path1 = Path.Combine(wRootPath + "/Uploads", fileName);
+
+                using (var filestream = new FileStream(path1, FileMode.Create))
+                {
+                    await taskFile.CopyToAsync(filestream);
+                }
+                Models.StudentTask studentTask=new Models.StudentTask();
+                studentTask.Notes = Note;
+
+                _context.Add(studentTask);
+                _context.SaveChanges();
+            }
             return View();
         }
         public async Task<IActionResult> Exam(int id)
