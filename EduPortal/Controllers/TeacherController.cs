@@ -28,16 +28,16 @@ namespace EduPortal.Controllers
             //ViewBag.Attend = _context.StudentAttendanceRecord.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).Count();
             //.Matierial = _context.StudentsFinishMaterial.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).Count();
             var spectilization = _context.Spectialization.DefaultIfEmpty().ToList();
-
+            var login = _context.Login.ToList();
             var user = _context.Teacher.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).DefaultIfEmpty().ToList();
             var profile = from s in spectilization
                           join u in user on s.SpectializationId equals u.SpectializationId
-
+                          join l in login on u.TeacherId equals l.TeacherId
 
                           select new profileTeacher
                           {
                               Spectialization = s,
-
+                              Login=l,
                               Teacher = u
                           };
             return View(profile);
@@ -99,10 +99,52 @@ namespace EduPortal.Controllers
                             
                               Teacher = u
                           };
-            return View(profile);
+            return View(profile.ElementAt(0));
         }
 
-        public IActionResult QuestionBank(int id)
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(IFormFile image , string name ,string phone ,string pio)
+        {
+
+
+            var record = _context.Teacher.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).SingleOrDefault();
+            if(record == null)
+            {
+                return RedirectToAction("Profie");
+            }
+            else
+            {
+                if(image == null)
+                {
+                    record.FullName = name;
+                    record.PhoneNumber = phone;
+                    record.Pio = pio;
+                    _context.Update(record);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    String wRootPath = _env.WebRootPath;
+                    String fileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+
+                    var path1 = Path.Combine(wRootPath + "/Uploads", fileName);
+
+                    using (var filestream = new FileStream(path1, FileMode.Create))
+                    {
+                        await image.CopyToAsync(filestream);
+                    }
+                    record.FullName = name;
+                    record.PhoneNumber = phone;
+                    record.Pio = pio;
+                    record.Image = fileName;
+                    _context.Update(record);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Profie");
+            }
+        }
+
+            public IActionResult QuestionBank(int id)
         {
             return View(_context.Question.Where(x=> x.CourseId==id).ToList());
         }

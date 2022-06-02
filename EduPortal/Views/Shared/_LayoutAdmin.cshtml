@@ -43,19 +43,20 @@
             </a>
           </div>
           <ul class="sidebar-menu">
+            <li class="dropdown ">
+              <a asp-action="Index" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Profile</span></a>
+            </li>
              <li class="dropdown active">
                 <a asp-action="Sessions" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Session</span></a>
             </li>
-            <li class="dropdown ">
-              <a asp-action="Profile" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Our Profile</span></a>
-            </li>
-            <li class="dropdown">
+           
+@*            <li class="dropdown">
                 <a asp-action="GetMassagesInChatGroup" class="nav-link"><i class="fas fa-mail-bulk"></i><span>Messages</span></a>
-            </li>
-            
+            </li>*@
+           @* 
             <li class="dropdown">
               <a asp-action="QuestionDetails" class="nav-link"><i class="fas fa-question-circle"></i><span>Exam Bank</span></a>
-            </li>
+            </li>*@
                         
             <li class="dropdown">
               <a asp-action="Calender" class="nav-link"><i class="fas fa-question-circle"></i><span>Calender</span></a>

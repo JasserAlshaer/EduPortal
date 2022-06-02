@@ -55,7 +55,7 @@ namespace EduPortal.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-D80NIJG\\SQLEXPRESS;Database=EduPortal;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-7945E40\\SQLEXPRESS;Database=EduPortal;Trusted_Connection=True;");
             }
         }
 
@@ -205,6 +205,9 @@ namespace EduPortal.Models
 
             modelBuilder.Entity<Login>(entity =>
             {
+                entity.HasIndex(e => e.UniversityId)
+                    .HasName("IX_Login");
+
                 entity.Property(e => e.LoginId).HasColumnName("LoginID");
 
                 entity.Property(e => e.ConnectionString).IsUnicode(false);
@@ -460,6 +463,10 @@ namespace EduPortal.Models
 
                 entity.Property(e => e.Gpa).HasColumnName("GPA");
 
+                entity.Property(e => e.Image)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.JoiningDate).HasColumnType("date");
 
                 entity.Property(e => e.PhoneNumber)
@@ -629,6 +636,10 @@ namespace EduPortal.Models
 
                 entity.Property(e => e.FullName)
                     .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.IsActive)

@@ -15,6 +15,7 @@ namespace EduPortal.Models
         public bool? IsLogin { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime? LastLogout { get; set; }
+        public long UniversityId { get; set; }
         public string ConnectionString { get; set; }
         public bool? IsConnectionActive { get; set; }
         public int? TeacherId { get; set; }

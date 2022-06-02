@@ -28,6 +28,7 @@ namespace EduPortal.Models
         public string IsActive { get; set; }
         public int? SpectializationId { get; set; }
         public string PhoneNumber { get; set; }
+        public string Image { get; set; }
 
         public virtual Spectialization Spectialization { get; set; }
         public virtual ICollection<Login> Login { get; set; }

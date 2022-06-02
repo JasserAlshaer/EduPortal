@@ -29,6 +29,7 @@ namespace EduPortal.Models
         public double? Gpa { get; set; }
         public int? SpectializationId { get; set; }
         public int? StatusId { get; set; }
+        public string Image { get; set; }
 
         public virtual Spectialization Spectialization { get; set; }
         public virtual Status Status { get; set; }
