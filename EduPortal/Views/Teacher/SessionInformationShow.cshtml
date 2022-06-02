@@ -179,9 +179,9 @@
                                         <td>@record.StartAt</td>
                                         <td>@record.EndAt</td>
                                         <td>
-                                        <a asp-action="EditJobAds" asp-route-id="j.JobAds.EmploymentAdId" class="btn btn-primary">Get Answers</a>
-                                        <a asp-action="EditJobAds" asp-route-id="j.JobAds.EmploymentAdId" class="btn btn-primary">Update</a>
-                                        <a asp-action="EditJobAds" asp-route-id="j.JobAds.EmploymentAdId" class="btn btn-primary">Delete</a>
+                                        <a asp-action="GetTaskAnswer" asp-route-id="@record.TaskId" class="btn btn-primary">Get Answers</a>
+                                      @*  <a asp-action="EditJobAds" asp-route-id="j.JobAds.EmploymentAdId" class="btn btn-primary">Update</a>*@
+                                       @* <a asp-action="EditJobAds" asp-route-id="@record.TaskId" class="btn btn-primary">Delete</a>*@
                                         </td>
                                     </tr>
                                 }

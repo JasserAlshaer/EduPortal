@@ -201,13 +201,17 @@ namespace EduPortal.Controllers
             return RedirectToAction("QuestionDetails");
         }
 
+        //public IActionResult DeleteTask(int id)
+        //{
+        //    var rec=_context.Task.wh
+        //    return RedirectToAction("SessionInformationShow");
+        //}
 
-
-        public IActionResult GetTaskAnswer(int taskId)
+        public IActionResult GetTaskAnswer(int id)
         {
-            var task=_context.Task.Where(x => x.TaskId == taskId).ToList();
+            var task=_context.Task.Where(x => x.TaskId == id).ToList();
             var std=_context.Student.ToList();
-            var stdTask=_context.StudentTask.Where(x => x.TaskId == taskId).ToList();
+            var stdTask=_context.StudentTask.Where(x => x.TaskId == id).ToList();
 
 
 
@@ -224,8 +228,41 @@ namespace EduPortal.Controllers
             return View(join);
         }
 
-        //byModal
+        public IActionResult ViewAnswerAndInsertMark(int id)
+        {
+            var stdTask = _context.StudentTask.Where(x => x.TaskId == id).SingleOrDefault();
+            if (stdTask != null)
+            {
+                return View(stdTask);
+            }
+            return Unauthorized();
+        }
+
+
         [HttpPost]
+        public IActionResult InsertMarks(int id, int mark,string note)
+        {
+
+            var stdTask = _context.StudentTask.Where(x => x.TaskId == id).SingleOrDefault();
+            if (stdTask != null)
+            {
+                stdTask.ActualMark = mark;
+                stdTask.FinalResult = mark;
+                stdTask.TeacherResponse = note;
+
+                _context.Update(stdTask);
+                _context.SaveChanges();
+            }
+
+
+            return RedirectToAction("SessionInformationShow");
+
+
+        }
+
+
+            //byModal
+            [HttpPost]
         public IActionResult InsertOption(string answer,bool iscorrect)
         {
             Option option = new Option();
