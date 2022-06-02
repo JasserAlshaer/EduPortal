@@ -28,6 +28,7 @@ namespace EduPortal.Models
         public int? ScheduleId { get; set; }
         public int? CourseId { get; set; }
         public int? TeacherId { get; set; }
+        public string Image { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual Schedule Schedule { get; set; }

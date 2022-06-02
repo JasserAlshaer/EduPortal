@@ -101,8 +101,7 @@ namespace EduPortal.Controllers
                                                     Spectialization = s,
                                                     Course = c,
                                                     Session = ses,
-                                                    StudentsSession = myses,
-                                                    Student = std,
+                                                  
                                                     Schedule=myt,
                                                     Teacher=t
                                                 };
@@ -137,8 +136,7 @@ namespace EduPortal.Controllers
                                                     Spectialization = s,
                                                     Course = c,
                                                     Session = ses,
-                                                    StudentsSession = myses,
-                                                    Student = std,
+                                                  
                                                     Schedule = myt,
                                                     Teacher = t
                                                 };

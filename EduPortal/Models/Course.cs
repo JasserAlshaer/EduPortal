@@ -31,6 +31,7 @@ namespace EduPortal.Models
         public int? PassMark { get; set; }
         public int? SpectializationId { get; set; }
         public int? CourseAssociatedId { get; set; }
+        public string Image { get; set; }
 
         public virtual Course CourseAssociated { get; set; }
         public virtual Spectialization Spectialization { get; set; }

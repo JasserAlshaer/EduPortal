@@ -127,6 +127,8 @@ namespace EduPortal.Models
 
                 entity.Property(e => e.Description).IsUnicode(false);
 
+                entity.Property(e => e.Image).IsUnicode(false);
+
                 entity.Property(e => e.Name).IsUnicode(false);
 
                 entity.Property(e => e.SpectializationId).HasColumnName("SpectializationID");
@@ -391,6 +393,8 @@ namespace EduPortal.Models
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
 
                 entity.Property(e => e.EndAt).HasColumnType("date");
+
+                entity.Property(e => e.Image).IsUnicode(false);
 
                 entity.Property(e => e.ScheduleId).HasColumnName("ScheduleID");
 
