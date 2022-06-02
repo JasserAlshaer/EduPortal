@@ -194,10 +194,10 @@ namespace EduPortal.Controllers
 
             doList.TaskTitle = title;
             doList.Description = desc;
-            doList.IsDone = isdone;
-            doList.StartAt = start;
-            doList.DoneAt = end;
-            doList.Priority = priority;
+            //doList.IsDone = isdone;
+            //doList.StartAt = start;
+            //doList.DoneAt = end;
+            //doList.Priority = priority;
             doList.TeacherId = null; 
             doList.StudentId = HttpContext.Session.GetInt32("Id");
             _context.Add(doList);
@@ -240,10 +240,10 @@ namespace EduPortal.Controllers
             {
                 doList.TaskTitle = title;
                 doList.Description = desc;
-                doList.IsDone = isdone;
-                doList.StartAt = start;
-                doList.DoneAt = end;
-                doList.Priority = priority;
+                //doList.IsDone = isdone;
+                //doList.StartAt = start;
+                //doList.DoneAt = end;
+                //doList.Priority = priority;
                 doList.TeacherId = null;
                 doList.StudentId = HttpContext.Session.GetInt32("Id");
                 _context.Add(doList);

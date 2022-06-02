@@ -18,12 +18,10 @@ namespace EduPortal.Models
         public int QuestionId { get; set; }
         public string Text { get; set; }
         public bool? IsActive { get; set; }
-        public bool? IsHaveMultipleCorrectAnswer { get; set; }
         public int? QuestionTypeId { get; set; }
-        public int? CourseId { get; set; }
         public int? TeacherId { get; set; }
+        public string Image { get; set; }
 
-        public virtual Course Course { get; set; }
         public virtual QuestionType QuestionType { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual ICollection<ExamQuestion> ExamQuestion { get; set; }

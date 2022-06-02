@@ -5,6 +5,8 @@
     var taks = ViewBag.Task as IEnumerable<EduPortal.Models.Task>;
     var mat = ViewBag.Matierial as IEnumerable<EduPortal.Models.Material>;
     var std = ViewBag.myStudent as IEnumerable<EduPortal.Models.SessionAvailableStudents>;
+    var exam =ViewBag.Exam as  IEnumerable<EduPortal.Models.Exam>;
+    var chats = ViewBag.chats as IEnumerable<EduPortal.Models.ChatsContent>;
 }
   <div class="loader"></div>
         <section class="section">
@@ -41,10 +43,10 @@
                         <a class="nav-link" id="contact-tab2" data-toggle="tab" href="#contact5" role="tab"
                           aria-controls="contact" aria-selected="false">Chats</a>
                       </li>
-                      <li class="nav-item">
+                     @* <li class="nav-item">
                         <a class="nav-link" id="contact-tab2" data-toggle="tab" href="#contact6" role="tab"
                           aria-controls="contact" aria-selected="false">Question Bank</a>
-                      </li>
+                      </li>*@
 
                     </ul>
                     <div class="tab-content tab-bordered" id="myTab3Content">
@@ -199,8 +201,7 @@
                       </div>
 
                        <div class="tab-pane fade" id="contact3" role="tabpanel" aria-labelledby="contact-tab2">
-                                             
-<section class="section">
+                                      <section class="section">
     <div class="section-body">
 
         <div class="row">
@@ -209,31 +210,35 @@
                 <div class="card">
 
                     <div class="col-sm-12">
-                        <h2 style="display:inline-block;">Appointment <b>Management</b></h2>
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                     data-target=".bd-example-modal-lg" style="float:right;">Add new appointment</button>
+                        <h2 style="display:inline-block;">Matierial <b>Management</b></h2>
+                         <button type="button" class="btn btn-primary"
+                                   data-bs-toggle="modal" data-bs-target="#exampleModal3" style="float:right;">Add new Unit</button>
                     </div>
                     <div class="card-body p-0">
                         <div  id="tab" class="table-responsive">
                             <table class="table table-striped table-md">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Employee Name</th>
-                                    <th>Employee Department</th>
-                                    <th>Attendence Date</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th></th>
                                  
                                 </tr>
-                                @*@foreach (var record in Model)
-                                {*@
+                                @foreach (var record in mat)
+                                {
                                     <tr>
-                                        <td>record.attendence.Id</td>
-                                        <td>record.employee.Name</td>
-                                        <td>record.department.DepartmentName</td>
-                                        <td>record.attendence.AttendenceDate</td>
-                                    
+                                        <td>@record.MaterialId</td>
+                                         <td>@record.Title</td>
+                                          <td>@record.Description</td>
+                                         
+                                      <td>
+                                        
+                                               <a asp-action="DeleteMatierial" asp-route-id="@record.MaterialId" class="btn btn-danger">Delete</a>
+                                             
+                                       </td>
 
                                     </tr>
-                                @*}*@
+                                }
 
                             </table>
                         </div>
@@ -248,7 +253,7 @@
                       </div>
                       
                        <div class="tab-pane fade" id="contact4" role="tabpanel" aria-labelledby="contact-tab2">
-                                              
+                                             
 <section class="section">
     <div class="section-body">
 
@@ -258,31 +263,40 @@
                 <div class="card">
 
                     <div class="col-sm-12">
-                        <h2 style="display:inline-block;">Appointment <b>Management</b></h2>
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                     data-target=".bd-example-modal-lg" style="float:right;">Add new appointment</button>
+                        <h2 style="display:inline-block;">Exam <b>Management</b></h2>
+                         <button type="button" class="btn btn-primary"
+                                   data-bs-toggle="modal" data-bs-target="#exampleModal4" style="float:right;">Add new Exam</button>
                     </div>
                     <div class="card-body p-0">
                         <div  id="tab" class="table-responsive">
                             <table class="table table-striped table-md">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Employee Name</th>
-                                    <th>Employee Department</th>
-                                    <th>Attendence Date</th>
+                                    <th>Exam Title</th>
+                                    <th>Exam Date</th>
+                                    <th>Mark of</th>
+                                    <th>Get Students Marks</th>
                                  
                                 </tr>
-                                @*@foreach (var record in Model)
-                                {*@
+                                @foreach (var record in exam)
+                                {
                                     <tr>
-                                        <td>record.attendence.Id</td>
-                                        <td>record.employee.Name</td>
-                                        <td>record.department.DepartmentName</td>
-                                        <td>record.attendence.AttendenceDate</td>
-                                    
+                                        <td>@record.ExamId</td>
+                                         <td>@record.Title</td>
+                                          <td>@record.StartDateandTime</td>
+                                           <td>@record.Mark</td>
+                                          
+                                      <td>
+                                           @if (@record.IsActive!=true)
+                                              {
+                                               <a asp-action="QuestionBank" asp-route-id="@record.ExamId" class="btn btn-primary">Get Exam Content</a>
+                                              }else{
+                                              <a asp-action="GetExamsMark" asp-route-id="@record.ExamId" class="btn btn-primary">Get Exam Marks</a>
+                                              }
+                                       </td>
 
                                     </tr>
-                                @*}*@
+                                }
 
                             </table>
                         </div>
@@ -297,12 +311,94 @@
                       </div>
 
                       
-                       <div class="tab-pane fade" id="contact5" role="tabpanel" aria-labelledby="contact-tab2">
-                        Vestibulum imperdiet odio sed neque ultricies, ut dapibus mi maximus. Proin ligula massa,
-                        gravida in lacinia efficitur, hendrerit eget mauris. Pellentesque fermentum, sem interdum
-                        molestie finibus, nulla diam varius leo, nec varius lectus elit id dolor. Nam malesuada orci non
-                        ornare vulputate. Ut ut sollicitudin magna. Vestibulum eget ligula ut ipsum venenatis ultrices.
-                        Proin bibendum bibendum augue ut luctus.
+                       <div class="tab-pane fade" id="contact5" role="tabpanel" aria-labelledby="contact-tab2" style="height400px;">
+                                
+                           <div class="row">
+                               <div class="page-content page-container" id="page-content">
+    <div class="padding2">
+        <div class="row container d-flex justify-content-center">
+        <div class="col-md-12">
+            <div class="card2 card-bordered2">
+              <div class="card-header2">
+                <h4 class="card-title2"><strong>Chat</strong></h4>
+                <a class="btn2 btn-xs btn-secondary2" href="#" data-abc="true">Let's Chat App</a>
+              </div>
+
+
+              <div class="ps-container2 ps-theme-default2 ps-active-y2" id="chat-content" style="overflow-y: scroll !important; height:800px !important; width:1000px; display:flex; flex-direction:column; padding:90px;">
+               
+                  
+
+                  @foreach (var item in chats)
+                 {
+                   @if(@item.Message.IsSendByTeacher==true){
+
+                   
+                  <div class="media2 media-chat2">
+                  <img class="avatar2" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <div class="media-body2">
+                  
+                    <p>@item.Message.Text</p>
+                  
+                  </div>
+                  </div>
+                  }else{
+
+                  
+                <div class="media2 media-chat2 media-chat-reverse2">
+                  <div class="media-body2">
+                  
+                    <p>@item.Message.Text</p>
+                 
+                   
+                  </div>
+                </div>
+                
+                  }
+                 }
+             
+
+         
+
+
+                
+
+
+               
+
+             
+                </div>
+
+              
+
+              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
+
+              <div class="publisher2 bt-1 border-light">
+                  <form asp-action="SendMassages" method="post">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                <input type="text" name="sessionId" value="@Model.Session.SessionId" hidden readonly />
+                <input type="text" name="isTeacher" value="true" hidden readonly />
+                <input class="publisher-input2" type="text" name="text" placeholder="Write something" style="width:600px; margin-left:150px;">
+                <span class="publisher-btn2 file-group2">
+                  <i class="fa fa-paperclip2 file-browser2"></i>
+                  <input type="file">
+                </span>
+                
+                <button class="publisher-btn text-info" type="submit">
+                     <i class="fa fa-paper-plane"></i>
+                </button>
+               
+                </form>
+              </div>
+
+             </div>
+          </div>
+          </div>
+          </div>
+          </div>
+
+                           </div>
+
                       </div>
 
                       
@@ -400,7 +496,7 @@
                 </div>
                 <div class="modal-body">
 				<div class="row">
-
+                    <input type="number" name="sid" value="@Model.Session.SessionId" readonly hidden />
 				         <div class="form-group col-md-12 col-12">
                             <label>Task Title</label>
                              <input type="text" class="form-control" name="title" required>    
@@ -421,28 +517,34 @@
                              <label>Mark</label>
                              <input type="number" class="form-control" name="mark" required>    
                          </div>
+                                             
+                    <div class="form-group col-12">
+                      <label>Start Date</label>
+                      <input type="date" class="form-control" name="start" required>
+                    </div>
+                        
 
-                         <div class="form-group col-md-12 col-12">
-                             <label>Mark</label>
-                             <input type="datetime" class="form-control" name="start" required>    
-                         </div>
+                                                                 
+                    <div class="form-group col-12">
+                      <label>End Date</label>
+                      <input type="date" class="form-control" name="end" required>
+                    </div>
+                        
 
-                         <div class="form-group col-md-12 col-12">
-                             <label>Mark</label>
-                             <input type="datetime" class="form-control" name="end" required>    
-                         </div>
-                         
-                         <div class="form-group col-md-12 col-12">
-                             <label>Mark</label>
-                             <input type="datetime" class="form-control" name="lastdate">    
-                         </div>
+                                                                 
+                    <div class="form-group col-12">
+                      <label>Last Date</label>
+                      <input type="date" class="form-control" name="lastdate" required>
+                    </div>
+                        
+
 
 				          
                 </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" data-bs-dismiss="modal">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
                 </div>
                 </form>
@@ -456,14 +558,14 @@
             <div class="modal-content">
                  <form asp-action="InsertMatierial" method="post" enctype="multipart/form-data">
                 <div class="modal-header">
-                  Add New Task
+                  Add New Matierial
                 </div>
                 <div class="modal-body">
 				<div class="row">
-				  
+				  <input type="number" name="sid" value="@Model.Session.SessionId" readonly hidden />
 				<div class="form-group col-md-12 col-12">
-                            <label>Task Title</label>
-                             <input type="text" class="form-control" name="title" required>    
+                            <label>Unit Title</label>
+                             <input type="text"  class="form-control" name="title" required>    
                          </div>
                          
 				         <div class="form-group col-md-12 col-12">
@@ -480,12 +582,61 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" data-bs-dismiss="modal">Save</button>
-                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" >Save</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
+    <!---------------------Questions Dialog------------------------->
+
+        @*Exam Modal*@
+	<div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-xxl-down">
+            <div class="modal-content">
+                 <form asp-action="InsertExam" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                  Add New Exam
+                </div>
+                <div class="modal-body">
+				<div class="row">
+				  <input type="number" name="cid" value="@Model.Course.CourseId" readonly hidden />
+                  
 
 
+                       <div class="form-group col-md-12 col-12">
+                             <label>Exam Title</label>
+                             <input type="text"  class="form-control" name="title" required>    
+                         </div>
+				        <div class="form-group col-12">
+                              <label>Start At</label>
+                              <input type="date" class="form-control" name="start" required>
+                       </div>
+                         
+				         <div class="form-group col-12">
+                              <label>End At</label>
+                              <input type="date" class="form-control" name="end" required>
+                       </div>
+                         
+				         <div class="form-group col-md-12 col-12">
+                            <label>Summation Of Question</label>
+                             <input type="number" class="form-control" name="sum" required>    
+                         </div>
+
+                          <div class="form-group col-md-12 col-12">
+                            <label>Exam Mark</label>
+                             <input type="number" class="form-control" name="mark" required>    
+                         </div>
+
+                </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" >Save</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>

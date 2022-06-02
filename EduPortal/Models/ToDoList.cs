@@ -12,13 +12,11 @@ namespace EduPortal.Models
         public int ToDoListId { get; set; }
         public string TaskTitle { get; set; }
         public string Description { get; set; }
-        public bool? IsDone { get; set; }
-        public DateTime? StartAt { get; set; }
-        public DateTime? DoneAt { get; set; }
-        public int? Priority { get; set; }
         public int? StudentId { get; set; }
         public int? TeacherId { get; set; }
+        public int? StatusId { get; set; }
 
+        public virtual StatusToDoList Status { get; set; }
         public virtual Student Student { get; set; }
         public virtual Teacher Teacher { get; set; }
     }

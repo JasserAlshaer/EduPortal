@@ -38,7 +38,7 @@ namespace EduPortal.Controllers
                               Login=l,
                               Teacher = u
                           };
-            return View(profile);
+            return View(profile.ElementAt(0));
         }
 
         public IActionResult Sessions()
@@ -56,9 +56,11 @@ namespace EduPortal.Controllers
             return View(join);
         }
 
-        public IActionResult SessionInformationShow()
+      
+
+        public IActionResult SessionInformationShow([FromQuery]int id)
         {
-            int id = 1;
+            //int id = 1;
             ViewBag.Metting = _context.Metting.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
             ViewBag.Matierial = _context.Material.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
             ViewBag.Task = _context.Task.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
@@ -67,6 +69,34 @@ namespace EduPortal.Controllers
             var students = _context.Student.DefaultIfEmpty().ToList();
             var session = _context.Session.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
             var Mysession = _context.StudentsSession.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
+            ViewBag.Exam= _context.Exam.ToList();
+
+
+            var chatsGroub = _context.ChatGroup.Where(x => x.SessionId == id).ToList();
+            var massages = _context.Message.ToList();
+            
+            var chats=_context.Chats.ToList();
+            
+
+            var cahtsContent = from cg in chatsGroub
+                               join c in chats
+                               on cg.ChatGroupId equals c.ChatGroupId
+                               join m in massages on c.MessageId equals m.MessageId
+                              
+
+                               
+                               select new ChatsContent
+                               {
+                                 
+                                   ChatGroup=cg,
+                                   Chats=c,
+                                   Message=m,
+                               };
+            ViewBag.chats = cahtsContent;
+
+
+
+
 
             var thisSessionStudent = from std in students
                                      join ms in Mysession
@@ -114,7 +144,7 @@ namespace EduPortal.Controllers
             var record = _context.Teacher.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).SingleOrDefault();
             if(record == null)
             {
-                return RedirectToAction("Profie");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -144,35 +174,33 @@ namespace EduPortal.Controllers
                     _context.Update(record);
                     _context.SaveChanges();
                 }
-                return RedirectToAction("Profie");
+                return RedirectToAction("Index");
             }
         }
-
-
         //byModal
         [HttpPost]
-        public IActionResult InsertQuestion(string title,int courseId,bool multipleAnswers,int typeId)
-            
+        public IActionResult InsertExam(string title, int cid, int sum, int mark,DateTime start ,DateTime end)
+
         {
-            //Insert options and Question
-            Question question = new Question();
-            question.CourseId = courseId;
-            question.Text= title;
-            question.IsHaveMultipleCorrectAnswer = multipleAnswers;
-            question.QuestionTypeId = typeId;
-            question.TeacherId = HttpContext.Session.GetInt32("Id");
-            question.IsActive = true;
-            _context.Add(question);
+            Exam exam=new Exam();
+            exam.Title = title; 
+            exam.CourseId = cid;
+            exam.SumOfQuestion = sum;
+            exam.Mark = mark;
+            exam.StartDateandTime = start;
+            exam.EndDateandTime = end; 
+            exam.IsActive= true;
+
+            _context.Add(exam);
             _context.SaveChanges();
-
-
-
-            return RedirectToAction("QuestionDetails");
+            return RedirectToAction("SessionInformationShow", 1);
         }
 
+
+
         //byModal
         [HttpPost]
-        public async Task<IActionResult> InsertMatierial(string title,string desc, IFormFile path)
+        public async Task<IActionResult> InsertMatierial(string title,string desc, IFormFile path,int sid)
         {
             if (path != null)
             {
@@ -190,6 +218,7 @@ namespace EduPortal.Controllers
                 m.Title = title;
                 m.Description = desc;
                 m.FilePath = path1;
+                m.SessionId = sid;
 
 
 
@@ -197,15 +226,11 @@ namespace EduPortal.Controllers
                 _context.Add(m);
                 _context.SaveChanges();
             }
-               
-            return RedirectToAction("QuestionDetails");
+
+            return RedirectToAction("SessionInformationShow", 1);
         }
 
-        //public IActionResult DeleteTask(int id)
-        //{
-        //    var rec=_context.Task.wh
-        //    return RedirectToAction("SessionInformationShow");
-        //}
+       
 
         public IActionResult GetTaskAnswer(int id)
         {
@@ -255,28 +280,168 @@ namespace EduPortal.Controllers
             }
 
 
-            return RedirectToAction("SessionInformationShow");
+            return RedirectToAction("GetTaskAnswer", stdTask.TaskId);
 
 
         }
 
 
-            //byModal
-            [HttpPost]
-        public IActionResult InsertOption(string answer,bool iscorrect)
+        public IActionResult QuestionBank(int id)
         {
-            Option option = new Option();
-            option.QuestionId = _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
-            option.Answer = answer;
-            option.IsCorrect = iscorrect;
-            _context.Add(option);
-            _context.SaveChanges();
-            return RedirectToAction("QuestionDetails");
+            ViewBag.Id = id;
+
+
+            var questions = _context.Question.ToList();
+            var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
+            var qType=_context.QuestionType.ToList();
+
+            var jo = from q in questions
+                     join ex in examQuestion
+ on q.QuestionId equals ex.QuestionId
+                     join qt in qType on q.QuestionTypeId equals qt.QuestionTypeId
+                     select new QuestionGrid
+                     {
+                         ExamQuestion=ex
+                         ,Question=q
+                         ,QuestionType=qt
+                     };
+            return View(jo);
+        }
+        public IActionResult GetExamsMark(int id)
+        {
+            var questions = _context.Question.ToList();
+            var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
+            var qType = _context.QuestionType.ToList();
+            var stdexam=_context.StudentTakeExam.Where(x => x.ExamId == id);
+            var std = _context.Student.ToList();
+            var jo = from q in questions
+                     join ex in examQuestion
+                     on q.QuestionId equals ex.QuestionId
+                     join qt in qType on q.QuestionTypeId equals qt.QuestionTypeId
+                     join se in stdexam on ex.ExamId equals se.ExamId
+                     join s in std on se.StudentId equals s.StudentId
+                     select new ExamMarksGrid
+                     {
+                         ExamQuestion = ex
+                         ,
+                         Question = q
+                         ,
+                         QuestionType = qt,
+
+                         StudentTakeExam=se,
+                         Student=s
+                     };
+            return View(jo);
+        }
+
+        
+
+        public IActionResult InsertQuestion(int id)
+        {
+            ViewBag.Id = id;
+            return View();
         }
         //byModal
         [HttpPost]
+        public async Task<IActionResult> InsertQuestionWritable(int examid,string title,IFormFile file, int typeId)
+
+        {
+            Question question = new Question();
+            if (file != null)
+            {
+                String wRootPath = _env.WebRootPath;
+                String fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                var path1 = Path.Combine(wRootPath + "/Uploads", fileName);
+
+                using (var filestream = new FileStream(path1, FileMode.Create))
+                {
+                    await file.CopyToAsync(filestream);
+                }
+                question.Image = fileName;
+            }
+              question.Text = title;
+              question.QuestionTypeId = typeId;
+              question.TeacherId = HttpContext.Session.GetInt32("Id");
+              question.IsActive = true;
+               _context.Add(question);
+               _context.SaveChanges();
+                return RedirectToAction("QuestionBank", examid);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertQuestionMuiltable(int examid, string title,string option1, string option2
+            , string option3, string option4,IFormFile file)
+
+        {
+            Question question = new Question();
+            if (file != null)
+            {
+                String wRootPath = _env.WebRootPath;
+                String fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                var path1 = Path.Combine(wRootPath + "/Uploads", fileName);
+
+                using (var filestream = new FileStream(path1, FileMode.Create))
+                {
+                    await file.CopyToAsync(filestream);
+                }
+                question.Image = fileName;
+            }
+            question.Text = title;
+            question.QuestionTypeId = 1;
+            question.TeacherId = HttpContext.Session.GetInt32("Id");
+            question.IsActive = true;
+            _context.Add(question);
+            _context.SaveChanges();
+
+            //bind with exam
+
+            ExamQuestion examQuestion = new ExamQuestion(); 
+            examQuestion.ExamId= examid;
+            examQuestion.QuestionId= _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
+            _context.Add(examQuestion);
+            _context.SaveChanges();
+            //Store Options
+
+            Option option = new Option();
+            option.QuestionId = _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
+            option.Answer = option1;
+            option.IsCorrect= true;
+            _context.Add(option);
+            _context.SaveChanges();
+
+
+            Option o2 = new Option();
+            o2.QuestionId = _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
+            o2.Answer = option2;
+            o2.IsCorrect = false;
+            _context.Add(o2);
+            _context.SaveChanges();
+
+
+            Option o3 = new Option();
+            o3.QuestionId = _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
+            o3.Answer = option3;
+            o3.IsCorrect = false;
+            _context.Add(o2);
+            _context.SaveChanges();
+
+            Option o4 = new Option();
+            o4.QuestionId = _context.Question.OrderByDescending(x => x.QuestionId).First().QuestionId;
+            o4.Answer = option4;
+            o4.IsCorrect = false;
+            _context.Add(o2);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("QuestionBank", examid);
+        }
+
+        //byModal
+        [HttpPost]
         public async Task<IActionResult> InsertTask(string title,string note,int mark,int weight,IFormFile taskFile
-            ,int sessionId,bool lastSubmit,DateTime start, DateTime end, DateTime lastdate)
+            ,int sid, bool lastSubmit,DateTime start, DateTime end, DateTime lastdate)
         {
             if (taskFile != null)
             {
@@ -295,7 +460,7 @@ namespace EduPortal.Controllers
                 task.Mark = mark;
                 task.Weight = mark;
                 task.FilePath = fileName;
-                task.SessionId = sessionId;
+                task.SessionId = sid;
                 if (lastdate != null)
                 {
                     task.IsAllowLateSubmmition = true;
@@ -311,22 +476,22 @@ namespace EduPortal.Controllers
 
 
             }
-           
-            return RedirectToAction("SessionInformationShow");
+
+            return RedirectToAction("SessionInformationShow", 1);
         }
         //byModal
         [HttpPost]
-        public IActionResult AddToDo(string title,string desc,bool isdone,DateTime start,DateTime end
-            ,int priority)
+        public IActionResult AddToDo(string title,string desc)
         {
             ToDoList doList= new ToDoList();
 
             doList.TaskTitle = title;
             doList.Description = desc;
-            doList.IsDone = isdone;
-            doList.StartAt = start;
-            doList.DoneAt = end;
-            doList.Priority = priority;
+            //doList.IsDone = isdone;
+            //doList.StartAt = start;
+            //doList.DoneAt = end;
+            //doList.Priority = priority;
+            doList.StatusId = 1;
             doList.StudentId = null;
             doList.TeacherId = HttpContext.Session.GetInt32("Id");
              _context.Add(doList);
@@ -350,35 +515,33 @@ namespace EduPortal.Controllers
            
         }
 
-        //public IActionResult UpdateToDo(int id )
-        //{
-        //    var item = _context.ToDoList.Where(x => x.ToDoListId == id).First();
-        //    if (item != null)
-        //    {
-        //        return View(item);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+        
+       public IActionResult DeleteMatierial(int id)
+        {
+            var item = _context.Material.Where(x => x.MaterialId == id).First();
+            if (item != null)
+            {
+                _context.Remove(item);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
         //byModal
         [HttpPost]
-        public IActionResult UpdateToDo(int id,string title, string desc, bool isdone, DateTime start, DateTime end
-            , int priority)
+        public IActionResult UpdateToDo(int id,int statusid)
         {
             var doList = _context.ToDoList.Where(x => x.ToDoListId == id).First();
             if (doList != null)
             {
-                doList.TaskTitle = title;
-                doList.Description = desc;
-                doList.IsDone = isdone;
-                doList.StartAt = start;
-                doList.DoneAt = end;
-                doList.Priority = priority;
+                doList.StatusId = statusid;
                 doList.StudentId = null;
                 doList.TeacherId = HttpContext.Session.GetInt32("Id");
-                _context.Add(doList);
+                _context.Update(doList);
                 _context.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -391,19 +554,23 @@ namespace EduPortal.Controllers
 
            
         }
-
-        public IActionResult UsersMassages()
-        {
-            return View();
-        }
-
-        public IActionResult GetMassagesInChatGroup()
-        {
-            return View();
-        }
         [HttpPost]
-        public IActionResult SendMassages()
+        public IActionResult SendMassages(bool isTeacher,string text,int sessionId)
         {
+            Message message = new Message();
+            message.Text = text;
+            message.IsSendByTeacher= isTeacher;
+            message.SenderName = _context.Teacher.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).First().FullName;
+            message.MassageDate= DateTime.Now;
+
+            _context.Add(message);  
+            _context.SaveChanges();
+
+            Chats chats = new Chats();  
+            chats.MessageId=_context.Message.OrderByDescending(x=>x.MessageId).First().MessageId;
+            chats.ChatGroupId=_context.ChatGroup.OrderByDescending(x=>x.ChatGroupId).Where(x=>x.SessionId==sessionId).First().ChatGroupId;
+            _context.Add(chats);
+            _context.SaveChanges();
             return View();
         }
         public IActionResult Calender()

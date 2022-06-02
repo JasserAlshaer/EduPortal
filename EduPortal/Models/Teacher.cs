@@ -12,11 +12,9 @@ namespace EduPortal.Models
         public Teacher()
         {
             Login = new HashSet<Login>();
-            Message = new HashSet<Message>();
             Question = new HashSet<Question>();
             Session = new HashSet<Session>();
             ToDoList = new HashSet<ToDoList>();
-            UserChatGroup = new HashSet<UserChatGroup>();
         }
 
         public int TeacherId { get; set; }
@@ -32,10 +30,8 @@ namespace EduPortal.Models
 
         public virtual Spectialization Spectialization { get; set; }
         public virtual ICollection<Login> Login { get; set; }
-        public virtual ICollection<Message> Message { get; set; }
         public virtual ICollection<Question> Question { get; set; }
         public virtual ICollection<Session> Session { get; set; }
         public virtual ICollection<ToDoList> ToDoList { get; set; }
-        public virtual ICollection<UserChatGroup> UserChatGroup { get; set; }
     }
 }

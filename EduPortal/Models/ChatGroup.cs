@@ -12,7 +12,6 @@ namespace EduPortal.Models
         public ChatGroup()
         {
             Chats = new HashSet<Chats>();
-            UserChatGroup = new HashSet<UserChatGroup>();
         }
 
         public int ChatGroupId { get; set; }
@@ -25,6 +24,5 @@ namespace EduPortal.Models
 
         public virtual Session Session { get; set; }
         public virtual ICollection<Chats> Chats { get; set; }
-        public virtual ICollection<UserChatGroup> UserChatGroup { get; set; }
     }
 }

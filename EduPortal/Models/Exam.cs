@@ -23,6 +23,8 @@ namespace EduPortal.Models
         public int? SumOfQuestion { get; set; }
         public int? Weight { get; set; }
         public int? CourseId { get; set; }
+        public string Title { get; set; }
+        public bool? IsActive { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual ICollection<ExamQuestion> ExamQuestion { get; set; }

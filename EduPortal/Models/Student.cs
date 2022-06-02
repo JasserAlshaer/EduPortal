@@ -12,13 +12,11 @@ namespace EduPortal.Models
         public Student()
         {
             Login = new HashSet<Login>();
-            Message = new HashSet<Message>();
             StudentAttendanceRecord = new HashSet<StudentAttendanceRecord>();
             StudentTakeExam = new HashSet<StudentTakeExam>();
             StudentTask = new HashSet<StudentTask>();
             StudentsSession = new HashSet<StudentsSession>();
             ToDoList = new HashSet<ToDoList>();
-            UserChatGroup = new HashSet<UserChatGroup>();
         }
 
         public int StudentId { get; set; }
@@ -35,12 +33,10 @@ namespace EduPortal.Models
         public virtual Status Status { get; set; }
         public virtual StudentsFinishMaterial StudentsFinishMaterial { get; set; }
         public virtual ICollection<Login> Login { get; set; }
-        public virtual ICollection<Message> Message { get; set; }
         public virtual ICollection<StudentAttendanceRecord> StudentAttendanceRecord { get; set; }
         public virtual ICollection<StudentTakeExam> StudentTakeExam { get; set; }
         public virtual ICollection<StudentTask> StudentTask { get; set; }
         public virtual ICollection<StudentsSession> StudentsSession { get; set; }
         public virtual ICollection<ToDoList> ToDoList { get; set; }
-        public virtual ICollection<UserChatGroup> UserChatGroup { get; set; }
     }
 }
