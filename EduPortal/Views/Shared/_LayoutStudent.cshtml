@@ -16,6 +16,7 @@
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="~/Dashassets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='~/Dashassets/img/favicon.ico' />
+  <link rel="stylesheet" href="~/StyleSheet.css" />
 </head>
 
 <body>
@@ -44,34 +45,17 @@
           </div>
           <ul class="sidebar-menu">
               <li class="dropdown active">
-                <a asp-action="Index" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Index</span></a>
+                <a asp-action="Index" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Profile</span></a>
             </li>
-             <li class="dropdown active">
-                <a asp-action="Courses" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Courses</span></a>
+             <li class="dropdown ">
+                <a asp-action="Sessions" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>My Session</span></a>
             </li>
             <li class="dropdown ">
-              <a asp-action="Profile" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Our Profile</span></a>
+              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-id-card-alt"></i><span>To Do List</span></a>
             </li>
-            <li class="dropdown">
-                <a asp-action="GetMassagesInChatGroup" class="nav-link"><i class="fas fa-mail-bulk"></i><span>Messages</span></a>
+            <li class="dropdown ">
+              <a asp-action="Calender" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Calender</span></a>
             </li>
-            
-            <li class="dropdown">
-              <a asp-action="Calender" class="nav-link"><i class="fas fa-question-circle"></i><span>Calender</span></a>
-            </li>
-                        
-            <li class="dropdown">
-              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-question-circle"></i><span>To Do List</span></a>
-            </li>
-
-            <li class="dropdown">
-              <a asp-action="Marks" class="nav-link"><i class="fas fa-question-circle"></i><span>Marks</span></a>
-            </li>
-            <!--
-            <li class="dropdown">
-              <a asp-action="EmployeeOfCompany" class="nav-link"><i class="fas fa-users"></i><span>Employee</span></a>
-            </li>
-            -->
             <li class="dropdown">
               <a asp-action="Logout" class="nav-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
             </li>

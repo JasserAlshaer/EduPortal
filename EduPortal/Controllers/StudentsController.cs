@@ -21,14 +21,14 @@ namespace EduPortal.Controllers
             this._env = _env;
         }
         //public static List<Options> currentExam = new List<Options>();
+        //public static List<Options> ExamCorrectAnswers = new List<Options>();
         public static List<String> userAnswer = new List<string>();
         public static int examIndexPointer = 0;
 
         public IActionResult Index()
         {
 
-            //ViewBag.ToDo = _context.ToDoList.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).Count();
-
+      
             var spectilization = _context.Spectialization.DefaultIfEmpty().ToList();
             var login = _context.Login.ToList();
             var status=_context.Status.ToList();
@@ -292,18 +292,9 @@ namespace EduPortal.Controllers
             _context.SaveChanges();
             return View();
         }
-
-        public IActionResult FinishMat()
+        public IActionResult UploadTask(int id)
         {
-            return View();
-        }
-        
-        public IActionResult Marks()
-        {
-            return View();
-        }
-        public IActionResult UploadTask()
-        {
+            ViewBag.Id = id;
             return View();
         }
         [HttpPost]
@@ -328,8 +319,9 @@ namespace EduPortal.Controllers
             }
             return View();
         }
-        public async Task<IActionResult> Exam(int id)
+        public async Task<IActionResult> Exam()
         {
+            return View();
             //List<Options> options = _context.Options.Where(recprd => recprd.ExamId == id).ToList();
 
             //currentExam = options;
@@ -353,7 +345,8 @@ namespace EduPortal.Controllers
             //ViewBag.Index = examIndexPointer;
             //ViewBag.Text = "Next";
             //return View("Exam", currentExam.ElementAt(0));
-        }
+          
+       }
 
         [HttpPost]
         public void IncreaseExamIndex(int id, string Answer)
@@ -389,7 +382,7 @@ namespace EduPortal.Controllers
         }
 
 
-        public void SubmitExamAndSendJobApplication()
+        public void SubmitExam()
         {
             //int result = 0;
             //for (int i = 0; i < userAnswer.Count; i++)

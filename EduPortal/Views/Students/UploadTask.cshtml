@@ -1,0 +1,187 @@
+﻿@{
+    Layout = null;
+    var id = ViewBag.Id;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- forms-editor.html  21 Nov 2019 03:55:08 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Otika - Admin Dashboard Template</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="~/Dashassets/css/app.min.css">
+  <link rel="stylesheet" href="~/Dashassets/bundles/summernote/summernote-bs4.css">
+  <link rel="stylesheet" href="~/Dashassets/bundles/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="~/Dashassets/bundles/codemirror/theme/duotone-dark.css">
+  <link rel="stylesheet" href="~/Dashassets/bundles/jquery-selectric/selectric.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="~/Dashassets/css/style.css">
+  <link rel="stylesheet" href="~/Dashassets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="~/Dashassets/css/custom.css">
+  <link rel='shortcut icon' type='image/x-icon' href='~/Dashassets/img/favicon.ico' />
+</head>
+
+<body>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+     
+           <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+          </ul>
+        </div>
+      
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a href="index.html"> <img alt="image" src="~/Dashassets/img/logo.png" class="header-logo" /> <span
+                class="logo-name">Students Dashboard</span>
+            </a>
+          </div>
+          <ul class="sidebar-menu">
+              <li class="dropdown active">
+                <a asp-action="Index" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Profile</span></a>
+            </li>
+             <li class="dropdown ">
+                <a asp-action="Sessions" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>My Session</span></a>
+            </li>
+            <li class="dropdown ">
+              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-id-card-alt"></i><span>To Do List</span></a>
+            </li>
+            <li class="dropdown ">
+              <a asp-action="Calender" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Calender</span></a>
+            </li>
+            <li class="dropdown">
+              <a asp-action="Logout" class="nav-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </li>
+           
+          </ul>
+        </aside>
+      </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+          @*  <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Simple Summernote</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
+                      <div class="col-sm-12 col-md-7">
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Category</label>
+                      <div class="col-sm-12 col-md-7">
+                        <select class="form-control selectric">
+                          <option>Tech</option>
+                          <option>News</option>
+                          <option>Political</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
+                      <div class="col-sm-12 col-md-7">
+                        <textarea class="summernote-simple"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                      <div class="col-sm-12 col-md-7">
+                        <button class="btn btn-primary">Publish</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>*@
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Upload You Answer</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
+                      <div class="col-sm-12 col-md-7">
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Category</label>
+                      <div class="col-sm-12 col-md-7">
+                        <select class="form-control selectric">
+                          <option>Tech</option>
+                          <option>News</option>
+                          <option>Political</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
+                      <div class="col-sm-12 col-md-7">
+                        <textarea class="summernote"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                      <div class="col-sm-12 col-md-7">
+                        <button class="btn btn-primary">Publish</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+  
+      </div>
+      <footer class="main-footer">
+        <div class="footer-left">
+          <a href="templateshub.net">Templateshub</a></a>
+        </div>
+        <div class="footer-right">
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="~/Dashassets/js/app.min.js"></script>
+  <!-- JS Libraies -->
+  <script src="~/Dashassets/bundles/summernote/summernote-bs4.js"></script>
+  <script src="~/Dashassets/bundles/codemirror/lib/codemirror.js"></script>
+  <script src="~/Dashassets/bundles/codemirror/mode/javascript/javascript.js"></script>
+  <script src="~/Dashassets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
+  <script src="~/Dashassets/bundles/ckeditor/ckeditor.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="~/Dashassets/js/page/ckeditor.js"></script>
+  <!-- Template JS File -->
+  <script src="~/Dashassets/js/scripts.js"></script>
+  <!-- Custom JS File -->
+  <script src="~/Dashassets/js/custom.js"></script>
+</body>
+
+
+<!-- forms-editor.html  21 Nov 2019 03:55:16 GMT -->
+</html>
