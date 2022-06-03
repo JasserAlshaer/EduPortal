@@ -4,78 +4,17 @@
           var id = ViewBag.Id;
 }
 <div class="row">
-              <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
-                  <div class="padding-20">
-                    <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                         <li class="nav-item">
-                        <a class="nav-link" id="profile-tab2" data-toggle="tab" href="#Writable" role="tab"
-                          aria-selected="true">Writable Question</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#Multi" role="tab"
-                          aria-selected="false">Multiple Choice Question</a>
-                      </li>
-                     
-                      
-                    </ul>
-                    <div class="tab-content tab-bordered" id="myTab3Content">
-                      <div class="tab-pane fade  " id="Multi" role="tabpanel" aria-labelledby="home-tab2">
-                            
-
-                          
-                                           <form action="InsertQuestionWritable" method="post" enctype="multipart/form-data">
+ <div class="col-12 col-md-12 col-lg-12">
+  <div class="card">
+     <div class="padding-20">
+             <form action="InsertQuestionMuiltable" method="post" enctype="multipart/form-data">
                   <div class="card-body">
                       <input type="text" hidden name="examid" value="@id" class="form-control">
                     <div class="form-group row mb-4">
-                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Image / Screen Shot</label>
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Image / Screen Shot</label>
                        
                         <div class="col-sm-12 col-md-12">
-                        <input type="file" name="file" class="form-control">
-                      </div>
-                      
-                    </div>
-                         
-                    </div>
-                    </form>
-
-                      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      <div class="tab-pane fade show active" id="Writable" role="tabpanel" aria-labelledby="profile-tab2">
-                                     
-                 <form action="InsertQuestionWritable" method="post" enctype="multipart/form-data">
-                  <div class="card-body">
-                      <input type="text" hidden name="examid" value="@id" class="form-control">
-                    <div class="form-group row mb-4">
-                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Image / Screen Shot</label>
-                       
-                        <div class="col-sm-12 col-md-12">
-                        <input type="file" name="file" class="form-control">
+                        <input type="file" name="file" class="form-control" required>
                       </div>
                       
                     </div>
@@ -86,22 +25,55 @@
                         <input type="text" name="title" class="form-control" required>
                       </div>
                       
-                    </div>          
-                    <div class="form-group row mb-4">
-                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Select Type Of Editor</label>
+                    </div>    
+                    
+
+                      <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Title / Question Text </label>
                        
                         <div class="col-sm-12 col-md-12">
-                         
+                        <input type="text" name="title" class="form-control" required>
                       </div>
-                      <div class="form-group">
-                      <label>Select Editor Type</label>
-                       <select name="typeId">
-                              <option value="2">Regular Editor</option>
-                              <option value="4">Code Editor</option>
-                          </select>
-                    </div>
                       
-                    </div>
+                    </div>    
+
+                      <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Correct Answer </label>
+                       
+                        <div class="col-sm-12 col-md-12">
+                        <input type="text" name="option1" class="form-control" required>
+                      </div>
+                      
+                    </div>    
+
+
+                      <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">First Suggested Answer  </label>
+                       
+                        <div class="col-sm-12 col-md-12">
+                        <input type="text" name="option2" class="form-control" required>
+                      </div>
+                      
+                    </div>    
+
+                      <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Second Suggested Answer </label>
+                       
+                        <div class="col-sm-12 col-md-12">
+                        <input type="text" name="option3" class="form-control" required>
+                      </div>
+                      
+                    </div>    
+
+                     <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-12 col-lg-12">Third Suggested Answer </label>
+                       
+                        <div class="col-sm-12 col-md-12">
+                        <input type="text" name="option3" class="form-control" required>
+                      </div>
+                      
+                    </div>    
+                   
 
 
                     
@@ -110,11 +82,7 @@
                       </div>
                     
                     </form>
-                      </div>
-
-                      
-                    </div>
-                  </div>
-                </div>
+      </div>
+    </div>
    </div>           
  </div>
