@@ -11,7 +11,7 @@ namespace EduPortal.Models
     {
         public Exam()
         {
-            ExamQuestion = new HashSet<ExamQuestion>();
+            Question = new HashSet<Question>();
             StudentTakeExam = new HashSet<StudentTakeExam>();
         }
 
@@ -27,7 +27,7 @@ namespace EduPortal.Models
         public bool? IsActive { get; set; }
 
         public virtual Course Course { get; set; }
-        public virtual ICollection<ExamQuestion> ExamQuestion { get; set; }
+        public virtual ICollection<Question> Question { get; set; }
         public virtual ICollection<StudentTakeExam> StudentTakeExam { get; set; }
     }
 }

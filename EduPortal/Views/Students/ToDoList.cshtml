@@ -35,9 +35,9 @@
                             <td class="hidden-xs">@item.TaskTitle</td>
                             <td class="max-texts">
                               <a href="#">
-                                @if(@item.ToDoListId==1){
+                                @if(@item.StatusId==1){
                                      <span class="badge badge-warning">To Do</span>
-                                }else if(@item.ToDoListId==2){
+                                }else if(@item.StatusId==2){
                                      <span class="badge badge-primary">In Progress</span>
                                 }else{
                                      <span class="badge badge-success">Done</span>
@@ -49,11 +49,11 @@
                            
                             
                              <td class="max-texts">
-                              @if(@item.ToDoListId==1){
+                              @if(@item.StatusId==1){
                                 <a asp-action="UpdateToDo" asp-route-id="@item.ToDoListId" asp-route-statusid="2">
                                 <span class="badge badge-success">Start</span>
                                </a>
-                                }else if(@item.ToDoListId==2){
+                                }else if(@item.StatusId==2){
                                      <a asp-action="UpdateToDo" asp-route-id="@item.ToDoListId" asp-route-statusid="3">
                                 <span class="badge badge-success">Done</span>
                                </a>
@@ -125,7 +125,7 @@
                          
 				         <div class="form-group col-md-12 col-12">
                             <label>Description</label>
-                             <input type="text" class="form-control" name="note" required>    
+                             <input type="text" class="form-control" name="desc" required>    
                          </div>
                 </div>
 

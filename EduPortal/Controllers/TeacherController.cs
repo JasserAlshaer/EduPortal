@@ -292,46 +292,44 @@ namespace EduPortal.Controllers
 
 
             var questions = _context.Question.ToList();
-            var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
+            //var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
             var qType=_context.QuestionType.ToList();
 
             var jo = from q in questions
-                     join ex in examQuestion
- on q.QuestionId equals ex.QuestionId
                      join qt in qType on q.QuestionTypeId equals qt.QuestionTypeId
                      select new QuestionGrid
                      {
-                         ExamQuestion=ex
-                         ,Question=q
+                       
+                         Question=q
                          ,QuestionType=qt
                      };
             return View(jo);
         }
         public IActionResult GetExamsMark(int id)
         {
-            var questions = _context.Question.ToList();
-            var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
-            var qType = _context.QuestionType.ToList();
-            var stdexam=_context.StudentTakeExam.Where(x => x.ExamId == id);
-            var std = _context.Student.ToList();
-            var jo = from q in questions
-                     join ex in examQuestion
-                     on q.QuestionId equals ex.QuestionId
-                     join qt in qType on q.QuestionTypeId equals qt.QuestionTypeId
-                     join se in stdexam on ex.ExamId equals se.ExamId
-                     join s in std on se.StudentId equals s.StudentId
-                     select new ExamMarksGrid
-                     {
-                         ExamQuestion = ex
-                         ,
-                         Question = q
-                         ,
-                         QuestionType = qt,
 
-                         StudentTakeExam=se,
-                         Student=s
-                     };
-            return View(jo);
+            return View();
+            //var questions = _context.Question.ToList();
+            ////var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
+            //var qType = _context.QuestionType.ToList();
+            //var stdexam=_context.StudentTakeExam.Where(x => x.ExamId == id);
+            //var std = _context.Student.ToList();
+            //var jo = from q in questions
+                   
+            //         join qt in qType on q.QuestionTypeId equals qt.QuestionTypeId
+                     
+            //         join s in std on se.StudentId equals s.StudentId
+            //         select new ExamMarksGrid
+            //         {
+                        
+            //             Question = q
+            //             ,
+            //             QuestionType = qt,
+
+            //             StudentTakeExam=se,
+            //             Student=s
+            //         };
+            //return View(jo);
         }
 
         
@@ -478,7 +476,7 @@ namespace EduPortal.Controllers
         }
         public IActionResult DeleteToDo(int id)
         {
-            var item=_context.ToDoList.Where(x=>x.ToDoListId==id).First();
+            var item=_context.ToDoList.Where(x=>x.ToDoListId==id).FirstOrDefault();
             if (item != null)
             {
                 _context.Remove(item);
@@ -563,7 +561,7 @@ namespace EduPortal.Controllers
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Main");
         }
     }
 }

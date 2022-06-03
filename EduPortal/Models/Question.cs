@@ -11,7 +11,6 @@ namespace EduPortal.Models
     {
         public Question()
         {
-            ExamQuestion = new HashSet<ExamQuestion>();
             Option = new HashSet<Option>();
         }
 
@@ -21,10 +20,11 @@ namespace EduPortal.Models
         public int? QuestionTypeId { get; set; }
         public int? TeacherId { get; set; }
         public string Image { get; set; }
+        public int? ExamId { get; set; }
 
+        public virtual Exam Exam { get; set; }
         public virtual QuestionType QuestionType { get; set; }
         public virtual Teacher Teacher { get; set; }
-        public virtual ICollection<ExamQuestion> ExamQuestion { get; set; }
         public virtual ICollection<Option> Option { get; set; }
     }
 }

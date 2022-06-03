@@ -24,7 +24,6 @@ namespace EduPortal.Models
         public virtual DbSet<Collage> Collage { get; set; }
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<Exam> Exam { get; set; }
-        public virtual DbSet<ExamQuestion> ExamQuestion { get; set; }
         public virtual DbSet<Goals> Goals { get; set; }
         public virtual DbSet<Login> Login { get; set; }
         public virtual DbSet<Material> Material { get; set; }
@@ -162,25 +161,6 @@ namespace EduPortal.Models
                     .WithMany(p => p.Exam)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Exam_Course");
-            });
-
-            modelBuilder.Entity<ExamQuestion>(entity =>
-            {
-                entity.Property(e => e.ExamQuestionId).HasColumnName("ExamQuestionID");
-
-                entity.Property(e => e.ExamId).HasColumnName("ExamID");
-
-                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
-
-                entity.HasOne(d => d.Exam)
-                    .WithMany(p => p.ExamQuestion)
-                    .HasForeignKey(d => d.ExamId)
-                    .HasConstraintName("FK_ExamQuestion_Exam");
-
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.ExamQuestion)
-                    .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK_ExamQuestion_Question");
             });
 
             modelBuilder.Entity<Goals>(entity =>
@@ -344,6 +324,11 @@ namespace EduPortal.Models
                 entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
 
                 entity.Property(e => e.Text).IsUnicode(false);
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.Question)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_Question_Exam");
 
                 entity.HasOne(d => d.QuestionType)
                     .WithMany(p => p.Question)

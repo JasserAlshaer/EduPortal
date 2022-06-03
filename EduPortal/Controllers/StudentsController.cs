@@ -20,11 +20,115 @@ namespace EduPortal.Controllers
             this._context = _context;
             this._env = _env;
         }
-        //public static List<Options> currentExam = new List<Options>();
-        //public static List<Options> ExamCorrectAnswers = new List<Options>();
-        public static List<String> userAnswer = new List<string>();
+        public static List<Question> currentExam = new List<Question>();
+        public static List<Option>   ExamAnswers = new List<Option>();
+        //public static List<String> userAnswer = new List<string>();
+        public static double  markSummation=0;
+        public static double markWeight=0;
         public static int examIndexPointer = 0;
 
+
+
+        public async Task<IActionResult> Exam(int id)
+        {
+
+
+
+            List<Question> questions = _context.Question.Where(recprd => recprd.ExamId == id).ToList();
+
+            currentExam = questions;
+            var exam= _context.Exam.Where(x => x.ExamId == id).SingleOrDefault();
+            markWeight = (int)exam.Mark / (int)exam.SumOfQuestion;
+
+            StudentTakeExam studentTakeExam = new StudentTakeExam();
+            studentTakeExam.ExamId = id;
+            studentTakeExam.StartExamAt= DateTime.Now;
+            studentTakeExam.StudentId = HttpContext.Session.GetInt32("Id");
+
+            _context.Add(studentTakeExam);
+            _context.SaveChanges();
+
+
+          
+
+            return RedirectToAction("ExamContent");
+
+        }
+
+        public IActionResult ExamContent()
+        {
+            ViewBag.Index = examIndexPointer;
+            ViewBag.Text = "Next";
+           
+            List<Option> getOption = _context.Option.Where(o => o.QuestionId == currentExam.ElementAt(0).QuestionId).ToList();
+            ExamAnswers = getOption;
+            ViewBag.ExamAnswers = getOption;    
+            return View("Exam", currentExam.ElementAt(0));
+
+        }
+
+        [HttpPost]
+        public IActionResult IncreaseExamIndex(int index, string studentAnswer)
+        {
+
+            //grading
+               foreach (Option option in _context.Option)
+            {
+                if(option.IsCorrect==true && option.Answer== studentAnswer)
+                {
+                    markSummation += markWeight;
+                }
+            }
+
+
+            ++examIndexPointer;
+            List<Option> getOption = _context.Option.Where(o => o.QuestionId == currentExam.ElementAt(examIndexPointer).QuestionId).ToList();
+            ViewBag.Index = examIndexPointer;
+
+            if (examIndexPointer == (currentExam.Count() - 2))
+            {
+                ViewBag.Text = "Submit and Finish";
+            }
+            ViewBag.Text = "Next";
+
+          
+            ExamAnswers = getOption;
+            ViewBag.ExamAnswers = getOption;
+            return View("Exam", currentExam.ElementAt(examIndexPointer));
+
+        }
+
+
+        public IActionResult SubmitExam(string studentAnswer)
+        {
+            foreach (Option option in _context.Option)
+            {
+                if (option.IsCorrect == true && option.Answer == studentAnswer)
+                {
+                    markSummation += markWeight;
+                }
+            }
+            var record = _context.StudentTakeExam.Where(x => x.ExamId == currentExam.ElementAt(0).ExamId
+              && x.StudentId == HttpContext.Session.GetInt32("Id")).SingleOrDefault();
+
+
+            if(record != null)
+            {
+                record.ActualMark=markSummation;
+                record.FinalResult = markSummation;
+                record.EndExamAt = DateTime.Now;
+
+                _context.Update(record);
+                _context.SaveChanges();
+            }
+
+
+            return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
+
+
+        
+
+        }
         public IActionResult Index()
         {
 
@@ -121,7 +225,7 @@ namespace EduPortal.Controllers
         {
 
 
-
+            HttpContext.Session.SetInt32("CurrecntSession", id);
             ViewBag.Goals = _context.Goals.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
             ViewBag.Topic = _context.Topic.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
             ViewBag.Associ = _context.Course.Where(x => x.CourseAssociatedId == id).DefaultIfEmpty().ToList();
@@ -228,12 +332,12 @@ namespace EduPortal.Controllers
             //doList.DoneAt = end;
             //doList.Priority = priority;
             doList.StatusId = 1;
-            doList.StudentId = null;
-            doList.TeacherId = HttpContext.Session.GetInt32("Id");
+            doList.TeacherId = null;
+            doList.StudentId = HttpContext.Session.GetInt32("Id");
             _context.Add(doList);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ToDoList");
         }
         public IActionResult DeleteToDo(int id)
         {
@@ -258,8 +362,8 @@ namespace EduPortal.Controllers
             if (doList != null)
             {
                 doList.StatusId = statusid;
-                doList.StudentId = null;
-                doList.TeacherId = HttpContext.Session.GetInt32("Id");
+                doList.TeacherId = null;
+                doList.StudentId = HttpContext.Session.GetInt32("Id");
                 _context.Update(doList);
                 _context.SaveChanges();
 
@@ -290,7 +394,8 @@ namespace EduPortal.Controllers
             chats.ChatGroupId = _context.ChatGroup.OrderByDescending(x => x.ChatGroupId).Where(x => x.SessionId == sessionId).First().ChatGroupId;
             _context.Add(chats);
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("SessionInfo");
+            //return View();
         }
         public IActionResult UploadTask(int id)
         {
@@ -319,118 +424,12 @@ namespace EduPortal.Controllers
             }
             return View();
         }
-        public async Task<IActionResult> Exam()
-        {
-            return View();
-            //List<Options> options = _context.Options.Where(recprd => recprd.ExamId == id).ToList();
 
-            //currentExam = options;
-
-
-            //CustomerExam customerExam = new CustomerExam();
-            //customerExam.ExamId = id;
-            //customerExam.CustomerId = HttpContext.Session.GetInt32("Id");
-
-            //HttpContext.Session.SetInt32("ExamId", id);
-
-            //_context.CustomerExam.Add(customerExam);
-            //await _context.SaveChangesAsync();
-
-            return RedirectToAction("ExamContent");
-
-        }
-
-        public void ExamContent()
-        {
-            //ViewBag.Index = examIndexPointer;
-            //ViewBag.Text = "Next";
-            //return View("Exam", currentExam.ElementAt(0));
-          
-       }
-
-        [HttpPost]
-        public void IncreaseExamIndex(int id, string Answer)
-        {
-        //    userAnswer.Insert(examIndexPointer, Answer);
-        //    if (userAnswer.Count() == currentExam.Count())
-        //    {
-        //        return Redirect("SubmitExamAndSendJobApplication");
-        //    }
-        //    if ((examIndexPointer + 3) > currentExam.Count())
-        //    {
-        //        ++examIndexPointer;
-
-        //        ViewBag.Index = examIndexPointer;
-        //        ViewBag.IsFinish = true;
-        //        ViewBag.Text = "Submit And Finish";
-        //        userAnswer.Count();
-        //        return View("Exam", currentExam.ElementAt(examIndexPointer));
-
-        //    }
-        //    else
-        //    {
-        //        ++examIndexPointer;
-
-        //        ViewBag.Index = examIndexPointer;
-        //        ViewBag.IsFinish = false;
-        //        ViewBag.Text = "Next";
-        //        userAnswer.Count();
-        //        return View("Exam", currentExam.ElementAt(examIndexPointer));
-
-        //    }
-
-        }
-
-
-        public void SubmitExam()
-        {
-            //int result = 0;
-            //for (int i = 0; i < userAnswer.Count; i++)
-            //{
-            //    if (userAnswer.ElementAt(i) == currentExam.ElementAt(i).CorrectAnswer)
-            //    {
-            //        result++;
-            //    }
-            //}
-
-            //var examInfo = _context.Exam.Where(recored => recored.ExamId == HttpContext.Session.GetInt32("ExamId")).SingleOrDefault();
-            //if (examInfo == null)
-            //{
-            //    return RedirectToAction("Index");
-            //}
-            //else
-            //{
-            //    int weightOfMark = 0;
-            //    weightOfMark = (int)examInfo.PassMark / examInfo.QuestionSum;
-            //    result *= weightOfMark;
-            //    if (result >= examInfo.PassMark)
-            //    {
-
-            //        CustomerJobs jobs = new CustomerJobs();
-            //        jobs.CustomerId = (long)HttpContext.Session.GetInt32("Id");
-            //        jobs.EmploymentId = _context.EmploymentAd.Where(e => e.ExamId == HttpContext.Session.GetInt32("ExamId"))
-            //        .FirstOrDefault().EmploymentAdId;
-            //        jobs.JobApplicationStatusId = 1;
-            //        jobs.LastUpdate = DateTime.Now;
-
-            //        _context.CustomerJobs.Add(jobs);
-            //        _context.SaveChanges();
-
-            //        return RedirectToAction("MyJobApplications");
-            //    }
-            //    else
-            //    {
-            //        return RedirectToAction("Error");
-            //    }
-
-            //}
-
-        }
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Main");
         }
     }
 }
