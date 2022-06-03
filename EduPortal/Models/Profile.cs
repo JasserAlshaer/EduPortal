@@ -5,5 +5,6 @@
         public Student Student { get; set; }
         public Spectialization Spectialization { get; set; }
         public Status Status { get; set; }
+        public Login Login { get; set; }
     }
 }

@@ -50,11 +50,11 @@
                             
                              <td class="max-texts">
                               @if(@item.ToDoListId==1){
-                                <a asp-action="#" asp-route-id="@item.ToDoListId" asp-route-statusid="2">
+                                <a asp-action="UpdateToDo" asp-route-id="@item.ToDoListId" asp-route-statusid="2">
                                 <span class="badge badge-success">Start</span>
                                </a>
                                 }else if(@item.ToDoListId==2){
-                                     <a asp-action="#" asp-route-id="@item.ToDoListId" asp-route-statusid="3">
+                                     <a asp-action="UpdateToDo" asp-route-id="@item.ToDoListId" asp-route-statusid="3">
                                 <span class="badge badge-success">Done</span>
                                </a>
                                 }else{

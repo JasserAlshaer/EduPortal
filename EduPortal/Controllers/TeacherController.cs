@@ -341,34 +341,7 @@ namespace EduPortal.Controllers
             ViewBag.Id = id;
             return View();
         }
-        //byModal
-        //[HttpPost]
-        //public async Task<IActionResult> InsertQuestionWritable(int examid,string title,IFormFile file, int typeId)
-
-        //{
-        //    Question question = new Question();
-        //    if (file != null)
-        //    {
-        //        String wRootPath = _env.WebRootPath;
-        //        String fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-
-        //        var path1 = Path.Combine(wRootPath + "/Uploads", fileName);
-
-        //        using (var filestream = new FileStream(path1, FileMode.Create))
-        //        {
-        //            await file.CopyToAsync(filestream);
-        //        }
-        //        question.Image = fileName;
-        //    }
-        //      question.Text = title;
-        //      question.QuestionTypeId = typeId;
-        //      question.TeacherId = HttpContext.Session.GetInt32("Id");
-        //      question.IsActive = true;
-        //       _context.Add(question);
-        //       _context.SaveChanges();
-        //        return RedirectToAction("QuestionBank", examid);
-        //}
-
+     
         [HttpPost]
         public async Task<IActionResult> InsertQuestionMuiltable(int examid, string title,string option1, string option2
             , string option3, string option4,IFormFile file)
@@ -536,7 +509,7 @@ namespace EduPortal.Controllers
 
         }
         //byModal
-        [HttpPost]
+        //[HttpPost]
         public IActionResult UpdateToDo(int id,int statusid)
         {
             var doList = _context.ToDoList.Where(x => x.ToDoListId == id).First();
