@@ -42,7 +42,8 @@
                           Joining Date
                         </span>
                         <span class="float-right text-muted">
-                          @Model.Teacher.JoiningDate
+                             @Html.Label(@Model.Teacher.JoiningDate.ToString().Substring(0,10))
+                         
                         </span>
                       </p>
                       <p class="clearfix">
@@ -50,7 +51,8 @@
                           Birthday
                         </span>
                         <span class="float-right text-muted">
-                         @Model.Teacher.BirthDate
+                            @Html.Label(@Model.Teacher.BirthDate.ToString().Substring(0,10))
+                         
                         </span>
                       </p>
                       <p class="clearfix">
@@ -89,7 +91,7 @@
                     <ul class="nav nav-tabs" id="myTab2" role="tablist">
                       <li class="nav-item">
                         <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#about" role="tab"
-                          aria-selected="true">ToDoList</a>
+                          aria-selected="true">Profile</a>
                       </li>
                      @* <li class="nav-item">
                         <a class="nav-link" id="profile-tab2" data-toggle="tab" href="#settings" role="tab"

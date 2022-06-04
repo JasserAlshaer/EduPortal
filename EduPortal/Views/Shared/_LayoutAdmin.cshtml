@@ -39,16 +39,22 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html"> <img alt="image" src="~/Dashassets/img/logo.png" class="header-logo" /> <span
+                 <h2 class="m-0 text-primary" style="color: #06BBCC !important; margin-top="30px;"> 
+                     <br />
+                     <i class="fa fa-book me-3" style="width=50px; height=80px; " ></i>
+                     <span style="margin-left:10px;">Teacher</span>
+                 </h2>
+          @*  <a href="index.html"> <img alt="image" src="~/icon.PNG" class="header-logo" width="45" height="98" /> <span
                 class="logo-name">Teacher Dashboard</span>
-            </a>
+            </a>*@
+              
           </div>
           <ul class="sidebar-menu">
-            <li class="dropdown ">
-              <a asp-action="Index" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Profile</span></a>
+            <li class="dropdown ">@*<i class="fa-solid fa-address-card"></i>*@
+              <a asp-action="Index" class="nav-link"><i class="fas fa-address-card"></i><span>Profile</span></a>
             </li>
-             <li class="dropdown active">
-                <a asp-action="Sessions" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Session</span></a>
+             <li class="dropdown active">@*<i class="fa-solid fa-books"></i>*@
+                <a asp-action="Sessions" class="nav-link"><i class="fas fa-book"></i><span>Session</span></a>
             </li>
            
 @*            <li class="dropdown">
@@ -59,12 +65,12 @@
               <a asp-action="QuestionDetails" class="nav-link"><i class="fas fa-question-circle"></i><span>Exam Bank</span></a>
             </li>*@
                         
-            <li class="dropdown">
-              <a asp-action="Calender" class="nav-link"><i class="fas fa-question-circle"></i><span>Calender</span></a>
+            <li class="dropdown">@*<i class="fa-solid fa-calendar-days"></i>*@
+              <a asp-action="Calender" class="nav-link"><i class="fas fa-calendar"></i><span>Calender</span></a>
             </li>
                         
-            <li class="dropdown">
-              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-question-circle"></i><span>To Do List</span></a>
+            <li class="dropdown">@*<i class="fa-solid fa-clipboard-check"></i>*@
+              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-clipboard-check"></i><span>To Do List</span></a>
             </li>
             
             <li class="dropdown">
