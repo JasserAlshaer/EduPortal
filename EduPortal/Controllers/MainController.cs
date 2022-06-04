@@ -54,15 +54,19 @@ namespace EduPortal.Controllers
                 }
                 else
                 {
-                    
+                   
                     HttpContext.Session.SetInt32("Id", (int)auth.StudentId);
                     return RedirectToAction("Index", "Students");
 
                 }
-                  
+
 
             }
-            return NotFound();
+            else
+            {
+                return RedirectToAction("Login");
+            }
+           // return NotFound();
 
         }
 
