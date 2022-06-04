@@ -60,6 +60,7 @@ namespace EduPortal.Controllers
 
         public IActionResult SessionInformationShow([FromQuery]int id)
         {
+            HttpContext.Session.SetInt32("CurrecntSession", id);
             //int id = 1;
             ViewBag.Metting = _context.Metting.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
             ViewBag.Matierial = _context.Material.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
@@ -193,7 +194,7 @@ namespace EduPortal.Controllers
 
             _context.Add(exam);
             _context.SaveChanges();
-            return RedirectToAction("SessionInformationShow", 1);
+            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
         }
 
 
@@ -227,7 +228,7 @@ namespace EduPortal.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("SessionInformationShow", 1);
+            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
         }
 
        
@@ -452,7 +453,7 @@ namespace EduPortal.Controllers
 
             }
 
-            return RedirectToAction("SessionInformationShow", 1);
+            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
         }
         //byModal
         [HttpPost]
@@ -472,7 +473,7 @@ namespace EduPortal.Controllers
              _context.Add(doList);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ToDoList");
         }
         public IActionResult DeleteToDo(int id)
         {
@@ -481,7 +482,7 @@ namespace EduPortal.Controllers
             {
                 _context.Remove(item);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ToDoList");
             }
             else
             {
@@ -498,7 +499,7 @@ namespace EduPortal.Controllers
             {
                 _context.Remove(item);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
             }
             else
             {
@@ -519,7 +520,7 @@ namespace EduPortal.Controllers
                 _context.Update(doList);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ToDoList");
             }
             else
             {
@@ -546,7 +547,7 @@ namespace EduPortal.Controllers
             chats.ChatGroupId=_context.ChatGroup.OrderByDescending(x=>x.ChatGroupId).Where(x=>x.SessionId==sessionId).First().ChatGroupId;
             _context.Add(chats);
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
         }
         public IActionResult Calender()
         {

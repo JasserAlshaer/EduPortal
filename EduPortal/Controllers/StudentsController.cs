@@ -224,12 +224,10 @@ namespace EduPortal.Controllers
         public IActionResult SessionInfo(int id)
         {
 
-
             HttpContext.Session.SetInt32("CurrecntSession", id);
-            ViewBag.Goals = _context.Goals.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
-            ViewBag.Topic = _context.Topic.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
-            ViewBag.Associ = _context.Course.Where(x => x.CourseAssociatedId == id).DefaultIfEmpty().ToList();
-            ViewBag.Pre = _context.PreRequest.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
+            
+            //ViewBag.Associ = _context.Course.Where(x => x.CourseAssociatedId == id).DefaultIfEmpty().ToList();
+            //ViewBag.Pre = _context.PreRequest.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
             /*
              * The Above Added New
              */
@@ -240,6 +238,8 @@ namespace EduPortal.Controllers
             //ViewBag.Exams= _context.Exam.Where(x => x.Course == id).DefaultIfEmpty().ToList();
             var students = _context.Student.DefaultIfEmpty().ToList();
             var session = _context.Session.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
+            ViewBag.Goals = _context.Goals.Where(x => x.CourseId == session.ElementAt(0).CourseId).DefaultIfEmpty().ToList();
+            ViewBag.Topic = _context.Topic.Where(x => x.CourseId == session.ElementAt(0).CourseId).DefaultIfEmpty().ToList();
             var Mysession = _context.StudentsSession.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
             ViewBag.Exam = _context.Exam.ToList();
 
@@ -346,7 +346,7 @@ namespace EduPortal.Controllers
             {
                 _context.Remove(item);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ToDoList");
             }
             else
             {
@@ -367,7 +367,7 @@ namespace EduPortal.Controllers
                 _context.Update(doList);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ToDoList");
             }
             else
             {
@@ -394,7 +394,7 @@ namespace EduPortal.Controllers
             chats.ChatGroupId = _context.ChatGroup.OrderByDescending(x => x.ChatGroupId).Where(x => x.SessionId == sessionId).First().ChatGroupId;
             _context.Add(chats);
             _context.SaveChanges();
-            return RedirectToAction("SessionInfo");
+            return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
             //return View();
         }
         public IActionResult UploadTask(int id)
@@ -422,7 +422,7 @@ namespace EduPortal.Controllers
                 _context.Add(studentTask);
                 _context.SaveChanges();
             }
-            return View();
+            return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
         }
 
         public IActionResult Logout()

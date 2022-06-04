@@ -35,9 +35,9 @@
                             <td class="hidden-xs">@item.TaskTitle</td>
                             <td class="max-texts">
                               <a href="#">
-                                @if(@item.ToDoListId==1){
+                                @if(@item.StatusId==1){
                                      <span class="badge badge-warning">To Do</span>
-                                }else if(@item.ToDoListId==2){
+                                }else if(@item.StatusId==2){
                                      <span class="badge badge-primary">In Progress</span>
                                 }else{
                                      <span class="badge badge-success">Done</span>
@@ -49,11 +49,11 @@
                            
                             
                              <td class="max-texts">
-                              @if(@item.ToDoListId==1){
+                              @if(@item.StatusId==1){
                                 <a asp-action="UpdateToDo" asp-route-id="@item.ToDoListId" asp-route-statusid="2">
                                 <span class="badge badge-success">Start</span>
                                </a>
-                                }else if(@item.ToDoListId==2){
+                                }else if(@item.StatusId==2){
                                      <a asp-action="UpdateToDo" asp-route-id="@item.ToDoListId" asp-route-statusid="3">
                                 <span class="badge badge-success">Done</span>
                                </a>
@@ -74,13 +74,17 @@
                     </div>
                     <div class="row">
                       <div class="col-sm-7 ">
-                        <p class="p-15">Showing :1000</p>
+                        <p class="p-15">Showing :@Model.Count()</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-               <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @if (@Model.Count() == 0)
+                {
+                    
+               
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                 <div class="card">
                   <div class="body">
                     <div id="mail-nav">
@@ -104,6 +108,7 @@
                   </div>
                 </div>
               </div>
+               }
             </div>
           </div>
         </section>

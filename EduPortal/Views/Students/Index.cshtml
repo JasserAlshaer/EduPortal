@@ -42,7 +42,8 @@
                           Joining Date
                         </span>
                         <span class="float-right text-muted">
-                          @Model.Student.JoiningDate
+                             @Html.Label(@Model.Student.JoiningDate.ToString().Substring(0,10))
+                        
                         </span>
                       </p>
                       <p class="clearfix">
@@ -50,7 +51,7 @@
                           Birthday
                         </span>
                         <span class="float-right text-muted">
-                         @Model.Student.BirthDate
+                              @Html.Label(@Model.Student.BirthDate.ToString().Substring(0,10))
                         </span>
                       </p>
                       <p class="clearfix">

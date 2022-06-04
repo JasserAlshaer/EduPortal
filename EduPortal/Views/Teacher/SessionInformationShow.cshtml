@@ -15,7 +15,8 @@
               <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>@Model.Course.Name Session - from : @Model.Session.StartAt - to @Model.Session.EndAt</h4>
+                       
+                    <h4>@Model.Course.Name Session - from :  @Html.Label(@Model.Session.StartAt.ToString().Substring(0,9)) - to  @Html.Label(@Model.Session.EndAt.ToString().Substring(0,10))</h4>
                   </div>
                   <div class="card-body">
                     <ul class="nav nav-tabs" id="myTab2" role="tablist">
@@ -132,7 +133,8 @@
                                         <td>@record.Student.StudentId</td>
                                         <td>@record.Student.FullName</td>
                                         <td>@record.Student.PhoneNumber</td>
-                                         sss<td>@record.Student.BirthDate</td>
+                                        
+                                       <td> @Html.Label(@record.Student.BirthDate.ToString().Substring(0,10))</td>
                                     </tr>
                                 }
 
