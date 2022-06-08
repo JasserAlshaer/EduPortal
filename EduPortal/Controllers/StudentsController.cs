@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -346,12 +347,51 @@ namespace EduPortal.Controllers
             return View(innerJoinForRegisteredCourses.ElementAt(0));
         }
 
-     
+      //student Calender
         public IActionResult Calender()
         {
-            ViewBag.Exam = _context.Exam.DefaultIfEmpty().ToList();
-            ViewBag.ToDo = _context.ToDoList.Where(x=>x.StudentId== HttpContext.Session.GetInt32("Id")).DefaultIfEmpty().ToList();
-            ViewBag.Task = _context.Task.DefaultIfEmpty().ToList();
+
+            //var session = _context.Session.ToList();
+            //var student = _context.Student.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).ToList();
+            //var exam = _context.Exam.ToList();
+            //var course = _context.Course.ToList();
+            //var stdSession = _context.StudentsSession.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).ToList();
+
+            ////join to fetch data of my exam 
+
+            //var myExams = from c in course
+            //              join s in session on c.CourseId equals s.CourseId
+            //              join e in exam on c.CourseId equals e.CourseId
+            //              join se in stdSession on s.SessionId equals se.SessionId
+            //              join std in student on se.StudentId equals std.StudentId
+            //              select new ExamsRecord
+            //              {
+            //                  Course = c,
+            //                  Session = s,
+            //                  Student = std,
+            //                  Exam = e,
+            //                  StudentsSession = se
+            //              };
+
+            //List<ExamsRecordData> examList = new List<ExamsRecordData>();
+            //foreach (var examT in myExams)
+            //{
+            //    ExamsRecordData e = new ExamsRecordData();
+            //    e.CourseName = examT.Course.Name;
+            //    e.endTime = examT.Exam.EndDateandTime;
+
+            //    examList.Add(e);
+            //}
+            //ViewBag.Exam=JsonConvert.SerializeObject(examList, Formatting.None,
+            //            new JsonSerializerSettings()
+            //            {
+            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //            });
+           
+
+            ViewBag.ToDo = _context.ToDoList.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).DefaultIfEmpty().ToList();
+           
+            //ViewBag.Task = _context.Task.DefaultIfEmpty().ToList();
             return View();
         }
         public IActionResult ToDoList()

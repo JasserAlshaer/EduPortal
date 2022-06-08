@@ -215,6 +215,7 @@ h4.card-title {
 .media-chat2.media-chat-reverse2 .media-body2 p {
     float: right;
     clear: right;
+    display:block;
     background-color: #48b0f7;
     color: #fff;
 }

@@ -557,11 +557,19 @@ namespace EduPortal.Controllers
             _context.SaveChanges();
             return RedirectToAction("SessionInformationShow", currentSessionId);
         }
+
+
+
+
         public IActionResult Calender()
         {
             ViewBag.ToDo = _context.ToDoList.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).ToList();
             return View();
         }
+
+
+
+
         public IActionResult ToDoList()
         {
             return View(_context.ToDoList.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).ToList());
