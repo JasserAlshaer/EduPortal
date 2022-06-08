@@ -14,6 +14,7 @@ namespace EduPortal.Controllers
     {
         private readonly EduPortalContext _context;
         private readonly IWebHostEnvironment _env;
+        public static int currentSessionId = 0;
 
         public TeacherController(EduPortalContext _context, IWebHostEnvironment _env)
         {
@@ -25,9 +26,9 @@ namespace EduPortal.Controllers
 
             ViewBag.ToDo = _context.ToDoList.Where(x => x.StudentId == HttpContext.Session.GetInt32("Id")).Count();
           
-            var spectilization = _context.Spectialization.DefaultIfEmpty().ToList();
+            var spectilization = _context.Spectialization.ToList();
             var login = _context.Login.ToList();
-            var user = _context.Teacher.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).DefaultIfEmpty().ToList();
+            var user = _context.Teacher.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).ToList();
             var profile = from s in spectilization
                           join u in user on s.SpectializationId equals u.SpectializationId
                           join l in login on u.TeacherId equals l.TeacherId
@@ -58,18 +59,26 @@ namespace EduPortal.Controllers
 
       
 
-        public IActionResult SessionInformationShow([FromQuery]int id)
+        public IActionResult SessionInformationShow(int id)
         {
-            HttpContext.Session.SetInt32("CurrecntSession", id);
+            if(id == 0)
+            {
+                id = currentSessionId;
+            }
+            else
+            {
+                currentSessionId = id;
+            }
+           
             //int id = 1;
-            ViewBag.Metting = _context.Metting.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
-            ViewBag.Matierial = _context.Material.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
-            ViewBag.Task = _context.Task.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
-            ViewBag.Chat = _context.ChatGroup.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
-            //ViewBag.Exams= _context.Exam.Where(x => x.Course == id).DefaultIfEmpty().ToList();
-            var students = _context.Student.DefaultIfEmpty().ToList();
-            var session = _context.Session.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
-            var Mysession = _context.StudentsSession.Where(x => x.SessionId == id).DefaultIfEmpty().ToList();
+            ViewBag.Metting = _context.Metting.Where(x => x.SessionId == id).ToList();
+            ViewBag.Matierial = _context.Material.Where(x => x.SessionId == id).ToList();
+            ViewBag.Task = _context.Task.Where(x => x.SessionId == id).ToList();
+            ViewBag.Chat = _context.ChatGroup.Where(x => x.SessionId == id).ToList();
+            //ViewBag.Exams= _context.Exam.Where(x => x.Course == id).ToList();
+            var students = _context.Student.ToList();
+            var session = _context.Session.Where(x => x.SessionId == id).ToList();
+            var Mysession = _context.StudentsSession.Where(x => x.SessionId == id).ToList();
             ViewBag.Exam= _context.Exam.ToList();
 
 
@@ -112,10 +121,10 @@ namespace EduPortal.Controllers
             ViewBag.myStudent=thisSessionStudent;
 
 
-            var course = _context.Course.DefaultIfEmpty().ToList();
-            var spectilization = _context.Spectialization.DefaultIfEmpty().ToList();
-            var time = _context.Schedule.DefaultIfEmpty().ToList();
-            var teach = _context.Teacher.DefaultIfEmpty().ToList();
+            var course = _context.Course.ToList();
+            var spectilization = _context.Spectialization.ToList();
+            var time = _context.Schedule.ToList();
+            var teach = _context.Teacher.ToList();
             var innerJoinForRegisteredCourses = from s in spectilization
                                                 join c in course on s.SpectializationId equals c.SpectializationId
                                                 join ses in session on c.CourseId equals ses.CourseId
@@ -183,6 +192,7 @@ namespace EduPortal.Controllers
         public IActionResult InsertExam(string title, int cid, int sum, int mark,DateTime start ,DateTime end)
 
         {
+
             Exam exam=new Exam();
             exam.Title = title; 
             exam.CourseId = cid;
@@ -194,7 +204,7 @@ namespace EduPortal.Controllers
 
             _context.Add(exam);
             _context.SaveChanges();
-            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
+            return RedirectToAction("SessionInformationShow", currentSessionId);
         }
 
 
@@ -228,7 +238,7 @@ namespace EduPortal.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
+            return RedirectToAction("SessionInformationShow", currentSessionId);
         }
 
        
@@ -309,28 +319,24 @@ namespace EduPortal.Controllers
         public IActionResult GetExamsMark(int id)
         {
 
-            return View();
-            //var questions = _context.Question.ToList();
-            ////var examQuestion = _context.ExamQuestion.Where(x => x.ExamId == id);
-            //var qType = _context.QuestionType.ToList();
-            //var stdexam=_context.StudentTakeExam.Where(x => x.ExamId == id);
-            //var std = _context.Student.ToList();
-            //var jo = from q in questions
-                   
-            //         join qt in qType on q.QuestionTypeId equals qt.QuestionTypeId
-                     
-            //         join s in std on se.StudentId equals s.StudentId
-            //         select new ExamMarksGrid
-            //         {
-                        
-            //             Question = q
-            //             ,
-            //             QuestionType = qt,
+            //return View();
+            var stdexam = _context.StudentTakeExam.Where(x => x.ExamId == id);
+            var std = _context.Student.ToList();
+            var exam = _context.Exam.ToList();  
+            var jo = from s in std
 
-            //             StudentTakeExam=se,
-            //             Student=s
-            //         };
-            //return View(jo);
+                     join estd in stdexam on s.StudentId equals estd.StudentId
+
+                     join e in exam on estd.ExamId equals e.ExamId
+                     select new ExamMarksGrid
+                     {
+
+                         
+                         Exam=e ,
+                         StudentTakeExam = estd,
+                         Student = s
+                     };
+            return View(jo);
         }
 
         
@@ -453,7 +459,7 @@ namespace EduPortal.Controllers
 
             }
 
-            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
+            return RedirectToAction("SessionInformationShow", currentSessionId);
         }
         //byModal
         [HttpPost]
@@ -501,7 +507,7 @@ namespace EduPortal.Controllers
             {
                 _context.Remove(item);
                 _context.SaveChanges();
-                return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
+                return RedirectToAction("SessionInformationShow", currentSessionId);
             }
             else
             {
@@ -549,11 +555,11 @@ namespace EduPortal.Controllers
             chats.ChatGroupId=_context.ChatGroup.OrderByDescending(x=>x.ChatGroupId).Where(x=>x.SessionId==sessionId).First().ChatGroupId;
             _context.Add(chats);
             _context.SaveChanges();
-            return RedirectToAction("SessionInformationShow", HttpContext.Session.GetInt32("CurrecntSession"));
+            return RedirectToAction("SessionInformationShow", currentSessionId);
         }
         public IActionResult Calender()
         {
-            ViewBag.ToDo = _context.ToDoList.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).DefaultIfEmpty().ToList();
+            ViewBag.ToDo = _context.ToDoList.Where(x => x.TeacherId == HttpContext.Session.GetInt32("Id")).ToList();
             return View();
         }
         public IActionResult ToDoList()

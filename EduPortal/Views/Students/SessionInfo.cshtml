@@ -145,7 +145,7 @@
                                         <td>@record.Student.StudentId</td>
                                          <td>
                             <img alt="image" src="~/Uploads/@record.Student.Image" class="rounded-circle" width="35"
-                              data-toggle="tooltip" title="Wildan Ahdian">
+                              data-toggle="tooltip" title="@record.Student.FullName">
                           </td>
                                         <td>@record.Student.FullName</td>
                                        
@@ -196,8 +196,12 @@
                                     <tr>
                                         <td>@record.TaskId</td>
                                         <td>@record.Title</td>
+                                                                        <td><div class="badge badge-warning">
+                                        <a href="~/Uploads/@record.FilePath" download>Click here To Download</a>
+</div> 
+</td>
                                        
-                                         <td><a href="@record.FilePath" download class="btn btn-outline-Success">Download File</a></td>
+                                        
                                        
                                         <td>@record.StartAt</td>
                                         <td>@record.EndAt</td>
@@ -250,7 +254,11 @@
                                         <td>@record.MaterialId</td>
                                          <td>@record.Title</td>
                                           <td>@record.Description</td>
-                                        <td><a href="@record.FilePath" download class="btn btn-primary">Download File</a></td>
+                                                                                                                  <td><div class="badge badge-warning">
+                                        <a href="~/Uploads/@record.FilePath" download>Click here To Download</a>
+</div> 
+</td>
+                                       @* <td><a href="@record.FilePath" download class="btn btn-primary">Download File</a></td>*@
                                        
                                       
 
@@ -308,7 +316,7 @@
                                               {
                                                  <a  class="btn btn-danger">This Exam Unavailable </a>
                                               }else{
-                                              <a asp-action="GetExamsMark" asp-route-id="@record.ExamId" class="btn btn-primary">Get This Exam </a>
+                                              <a asp-action="Exam" asp-route-id="@record.ExamId" class="btn btn-primary">Get This Exam </a>
                                               }
                                        </td>
 

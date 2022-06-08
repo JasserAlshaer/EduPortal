@@ -1,0 +1,64 @@
+﻿@model EduPortal.Models.Question;
+@{
+    Layout = "_LayoutStudent";
+    var index = ViewBag.Index;
+    var text=ViewBag.Text;
+    var answers= ViewBag.ExamAnswers as List<EduPortal.Models.Option>;
+}
+                <div class="card">
+
+                <form asp-action="IncreaseExamIndex" method="post">
+                  <div class="card-header">
+                    <h4>Question Number @(index+1)</h4>
+                  </div>
+                  <div class="card-body">
+                          @if(@Model.Image != null)
+            {
+                     <div class="form-group row">
+       
+                      <div class="col-sm-9">
+                          <img src="~/Uploads/@Model.Image" height=300/>
+                      </div>
+                    </div>
+                     }
+                    <div class="form-group row">
+                      <label for="inputEmail3" class="col-sm-3 col-form-label">Question Text</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputEmail3" value="@Model.Text" readonly>
+                      </div>
+                    </div>
+                   
+                    <fieldset class="form-group">
+                      <div class="row">
+                        <div class="col-form-label col-sm-3 pt-0"> Select One Answers</div>
+                        <div class="col-sm-9">
+                             
+                     
+                          <div class="form-check">
+                              <input type="number" readonly hidden value="@index"  name="index"/>
+                              @foreach (var item in answers)
+                             {
+                                  <div class="custom-control custom-radio">
+                              <input type="radio" id="@item.OptionId" name="studentAnswer" value="@item.Answer" class="custom-control-input" required>
+                              <label class="custom-control-label" for="@item.OptionId">@item.Answer</label>
+                            </div>
+                             }
+                           </div>
+                             
+                          
+                        </div>
+                      </div>
+                    
+                    </fieldset>
+                   
+                  </div>
+                  <div class="card-footer">
+            
+                 
+            
+                <button type="submit" class="btn btn-primary">@text</button>
+           
+            
+                  </div>
+                   </form>
+                </div>

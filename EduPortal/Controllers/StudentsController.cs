@@ -14,6 +14,7 @@ namespace EduPortal.Controllers
     {
         private readonly EduPortalContext _context;
         private readonly IWebHostEnvironment _env;
+        
 
         public StudentsController(EduPortalContext _context, IWebHostEnvironment _env)
         {
@@ -23,6 +24,7 @@ namespace EduPortal.Controllers
         public static List<Question> currentExam = new List<Question>();
         public static List<Option>   ExamAnswers = new List<Option>();
         //public static List<String> userAnswer = new List<string>();
+        public static int currentSessionId = 0;
         public static double  markSummation=0;
         public static double markWeight=0;
         public static int examIndexPointer = 0;
@@ -33,25 +35,38 @@ namespace EduPortal.Controllers
         {
 
 
+            var record = _context.StudentTakeExam.Where(x => x.ExamId == id
+                 && x.StudentId == HttpContext.Session.GetInt32("Id")).SingleOrDefault();
 
-            List<Question> questions = _context.Question.Where(recprd => recprd.ExamId == id).ToList();
+            if(record == null)
+            {
+                List<Question> questions = _context.Question.Where(recprd => recprd.ExamId == id).ToList();
 
-            currentExam = questions;
-            var exam= _context.Exam.Where(x => x.ExamId == id).SingleOrDefault();
-            markWeight = (int)exam.Mark / (int)exam.SumOfQuestion;
+                currentExam = questions;
+                var exam = _context.Exam.Where(x => x.ExamId == id).SingleOrDefault();
+                markWeight = (int)exam.Mark / (int)exam.SumOfQuestion;
 
-            StudentTakeExam studentTakeExam = new StudentTakeExam();
-            studentTakeExam.ExamId = id;
-            studentTakeExam.StartExamAt= DateTime.Now;
-            studentTakeExam.StudentId = HttpContext.Session.GetInt32("Id");
+                StudentTakeExam studentTakeExam = new StudentTakeExam();
 
-            _context.Add(studentTakeExam);
-            _context.SaveChanges();
+                studentTakeExam.StudentTakeExamId = _context.StudentTakeExam.OrderByDescending(x => x.StudentTakeExamId).First().StudentTakeExamId + 1;
+                studentTakeExam.ExamId = id;
+                studentTakeExam.StartExamAt = DateTime.Now;
+                studentTakeExam.StudentId = HttpContext.Session.GetInt32("Id");
+
+                _context.Add(studentTakeExam);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ExamContent");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+           
 
 
           
 
-            return RedirectToAction("ExamContent");
+          
 
         }
 
@@ -63,7 +78,7 @@ namespace EduPortal.Controllers
             List<Option> getOption = _context.Option.Where(o => o.QuestionId == currentExam.ElementAt(0).QuestionId).ToList();
             ExamAnswers = getOption;
             ViewBag.ExamAnswers = getOption;    
-            return View("Exam", currentExam.ElementAt(0));
+            return View(currentExam.ElementAt(0));
 
         }
 
@@ -72,61 +87,79 @@ namespace EduPortal.Controllers
         {
 
             //grading
-               foreach (Option option in _context.Option)
+            if (examIndexPointer == (currentExam.Count() - 1))
             {
-                if(option.IsCorrect==true && option.Answer== studentAnswer)
+                foreach (Option option in _context.Option)
                 {
-                    markSummation += markWeight;
+                    if (option.IsCorrect == true)
+                    {
+                        if (option.Answer == studentAnswer)
+                        {
+                            markSummation += markWeight;
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
                 }
-            }
+                var record = _context.StudentTakeExam.Where(x => x.ExamId == currentExam.ElementAt(0).ExamId
+                  && x.StudentId == HttpContext.Session.GetInt32("Id")).SingleOrDefault();
 
 
-            ++examIndexPointer;
-            List<Option> getOption = _context.Option.Where(o => o.QuestionId == currentExam.ElementAt(examIndexPointer).QuestionId).ToList();
-            ViewBag.Index = examIndexPointer;
-
-            if (examIndexPointer == (currentExam.Count() - 2))
-            {
-                ViewBag.Text = "Submit and Finish";
-            }
-            ViewBag.Text = "Next";
-
-          
-            ExamAnswers = getOption;
-            ViewBag.ExamAnswers = getOption;
-            return View("Exam", currentExam.ElementAt(examIndexPointer));
-
-        }
-
-
-        public IActionResult SubmitExam(string studentAnswer)
-        {
-            foreach (Option option in _context.Option)
-            {
-                if (option.IsCorrect == true && option.Answer == studentAnswer)
+                if (record != null)
                 {
-                    markSummation += markWeight;
+                    record.ActualMark = markSummation;
+                    record.FinalResult = markSummation;
+                    record.EndExamAt = DateTime.Now;
+
+                    _context.Update(record);
+                    _context.SaveChanges();
                 }
+
+
+                return RedirectToAction("SessionInfo", currentSessionId);
             }
-            var record = _context.StudentTakeExam.Where(x => x.ExamId == currentExam.ElementAt(0).ExamId
-              && x.StudentId == HttpContext.Session.GetInt32("Id")).SingleOrDefault();
-
-
-            if(record != null)
+            else
             {
-                record.ActualMark=markSummation;
-                record.FinalResult = markSummation;
-                record.EndExamAt = DateTime.Now;
+                foreach (Option option in _context.Option)
+                {
+                    if (option.IsCorrect == true)
+                    {
+                        if (option.Answer == studentAnswer)
+                        {
+                            markSummation += markWeight;
+                        }
+                        else
+                        {
+                            break;
+                        }
 
-                _context.Update(record);
-                _context.SaveChanges();
+                    }
+                }
+
+
+                ++examIndexPointer;
+                List<Option> getOption = _context.Option.Where(o => o.QuestionId == currentExam.ElementAt(examIndexPointer).QuestionId).ToList();
+                ViewBag.Index = examIndexPointer;
+
+                if (examIndexPointer == currentExam.Count() - 1)
+                {
+                    ViewBag.Text = "Submit and Finish";
+                }
+                else
+                {
+                    ViewBag.Text = "Next";
+                }
+              
+
+
+                ExamAnswers = getOption;
+                ViewBag.ExamAnswers = getOption;
+                return View("ExamContent", currentExam.ElementAt(examIndexPointer));
             }
-
-
-            return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
-
-
-        
+            
 
         }
         public IActionResult Index()
@@ -223,8 +256,15 @@ namespace EduPortal.Controllers
 
         public IActionResult SessionInfo(int id)
         {
-
-            HttpContext.Session.SetInt32("CurrecntSession", id);
+            if (id == 0)
+            {
+                id = currentSessionId;
+            }
+            else
+            {
+                currentSessionId = id;
+            }
+           
             
             //ViewBag.Associ = _context.Course.Where(x => x.CourseAssociatedId == id).DefaultIfEmpty().ToList();
             //ViewBag.Pre = _context.PreRequest.Where(x => x.CourseId == id).DefaultIfEmpty().ToList();
@@ -396,7 +436,7 @@ namespace EduPortal.Controllers
             chats.ChatGroupId = _context.ChatGroup.OrderByDescending(x => x.ChatGroupId).Where(x => x.SessionId == sessionId).First().ChatGroupId;
             _context.Add(chats);
             _context.SaveChanges();
-            return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
+            return RedirectToAction("SessionInfo", currentSessionId);
             //return View();
         }
         public IActionResult UploadTask(int id)
@@ -405,8 +445,9 @@ namespace EduPortal.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> UploadTask(string Note, IFormFile taskFile)
+        public async Task<IActionResult> UploadTask(int id ,string Note, IFormFile taskFile)
         {
+            StudentTask studentTask = new StudentTask();
             if (taskFile != null)
             {
                 String wRootPath = _env.WebRootPath;
@@ -418,13 +459,25 @@ namespace EduPortal.Controllers
                 {
                     await taskFile.CopyToAsync(filestream);
                 }
-                Models.StudentTask studentTask=new Models.StudentTask();
+               
                 studentTask.Notes = Note;
+                studentTask.AttactmentFile = fileName;
+                studentTask.SubmittedAt = DateTime.Now;
+                studentTask.StudentId = HttpContext.Session.GetInt32("Id");
 
-                _context.Add(studentTask);
-                _context.SaveChanges();
+               
             }
-            return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
+            else
+            {
+               
+                studentTask.Notes = Note;
+                studentTask.TaskId=
+                studentTask.SubmittedAt = DateTime.Now;
+                studentTask.StudentId = HttpContext.Session.GetInt32("Id");
+            }
+            _context.Add(studentTask);
+            _context.SaveChanges();
+            return RedirectToAction("SessionInfo",currentSessionId);
         }
 
 
