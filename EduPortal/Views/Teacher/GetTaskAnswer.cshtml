@@ -34,9 +34,11 @@
                                                  <a href="~/Uploads/@record.StudentTask.AttactmentFile" download class="btn btn-primary">Download Answer</a>
                                            </td>
                                             <td>@record.StudentTask.FinalResult</td>
-                                             <td>
-                                              <a asp-action="ViewAnswerAndInsertMark" asp-route-id="@record.StudentTask.StudentTaskId" class="btn btn-primary">Insert Mark</a>
+                                        @if (@record.StudentTask.FinalResult == null) {
+                                            <td>
+                                                <a asp-action="ViewAnswerAndInsertMark" asp-route-id="@record.StudentTask.StudentTaskId" class="btn btn-primary">Insert Mark</a>
                                             </td>
+                                          }
                                     </tr>
                                 }
 

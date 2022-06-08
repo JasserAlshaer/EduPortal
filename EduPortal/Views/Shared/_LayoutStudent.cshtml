@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/Dashassets/bundles/fullcalendar/fullcalendar.min.css">
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="~/Dashassets/css/custom.css">
-  <link rel='shortcut icon' type='image/x-icon' href='~/Dashassets/img/favicon.ico' />
+ <link rel='shortcut icon' type='image/x-icon' href="~/Uploads/eduIcon.PNG" />
   <link rel="stylesheet" href="~/StyleSheet.css" />
 </head>
 
@@ -39,22 +39,31 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html"> <img alt="image" src="~/Dashassets/img/logo.png" class="header-logo" /> <span
+           @* <a href="index.html"> <img alt="image" src="~/Dashassets/img/logo.png" class="header-logo" /> <span
                 class="logo-name">Students Dashboard</span>
-            </a>
+            </a>*@
+           <h2 class="m-0 text-primary" style="color: #06BBCC !important; margin-top:30px;"> 
+                     <br />
+                     <i class="fa fa-book me-3" style="width:50px; height:80px; " ></i>
+                     <span class="logo-name" style="margin-left:10px;">Students</span>
+                 </h2>
           </div>
           <ul class="sidebar-menu">
-              <li class="dropdown active">
-                <a asp-action="Index" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>Profile</span></a>
+              <li class="dropdown">
+                <a asp-action="Index" class="nav-link"><i class="fas fa-address-card"></i><span>Profile</span></a>
             </li>
              <li class="dropdown ">
-                <a asp-action="Sessions" class="nav-link"><i class="fas fa-sort-numeric-up"></i><span>My Session</span></a>
+                <a asp-action="Sessions" class="nav-link"><i class="fas fa-book"></i><span>My Session</span></a>
             </li>
             <li class="dropdown ">
-              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-id-card-alt"></i><span>To Do List</span></a>
+              <a asp-action="ToDoList" class="nav-link"><i class="fas fa-clipboard-check"></i><span>To Do List</span></a>
             </li>
             <li class="dropdown ">
-              <a asp-action="Calender" class="nav-link"><i class="fas fa-id-card-alt"></i><span>Calender</span></a>
+              <a asp-action="Calender" class="nav-link"><i class="fas fa-calendar"></i><span>Calender</span></a>
+            </li>
+
+            <li class="dropdown ">
+              <a asp-action="Boot" class="nav-link"><i class="fas fa-comments"></i><span>Ask Edu Portal</span></a>
             </li>
             <li class="dropdown">
               <a asp-action="Logout" class="nav-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>

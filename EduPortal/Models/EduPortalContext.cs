@@ -54,7 +54,7 @@ namespace EduPortal.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-UIL4A1A\\SQLEXPRESS;Database=EduPortal;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-7945E40\\SQLEXPRESS;Database=EduPortal;Trusted_Connection=True;");
             }
         }
 
@@ -661,6 +661,10 @@ namespace EduPortal.Models
                 entity.Property(e => e.ToDoListId).HasColumnName("ToDoListID");
 
                 entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
 
                 entity.Property(e => e.StatusId).HasColumnName("StatusID");
 

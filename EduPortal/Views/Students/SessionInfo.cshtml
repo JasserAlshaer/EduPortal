@@ -352,10 +352,15 @@
 
                    
                   <div class="media2 media-chat2">
-                  <img class="avatar2" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <img class="avatar2" width=40 height=40 src="https://media.istockphoto.com/vectors/blue-cute-robot-vector-id1191411980?k=20&m=1191411980&s=612x612&w=0&h=RwynZNA7Gf-VO3W8cuhI1s9bsKbZ1QZ89rKNrfSJCMA=" alt="...">
                   <div class="media-body2">
-                  
-                    <p>@item.Message.Text</p>
+                   <span class="badge badge-secondary">Edu Portal Chat Boot</span>
+                    <p>Hello How Can I Help You select on the Following </p>
+
+                      <p>How Can I Reset Password</p>
+                         <p>How Calnder It's Work</p>
+                           <p>What The Mening Of Colors in Calender</p>
+                             <p>Could I Have Chat with Adminstraitor</p>
                   
                   </div>
                   </div>
@@ -364,8 +369,8 @@
                   
                 <div class="media2 media-chat2 media-chat-reverse2">
                   <div class="media-body2">
-                  
-                    <p>@item.Message.Text</p>
+                   <span class="badge badge-light" style="float:right">My Name</span>
+                    <p>You Need just select one of the above option</p>
                  
                    
                   </div>
@@ -385,6 +390,30 @@
 
              
                 </div>
+                 </div>
+                  </div>
+                  </div>
+                 </div>
+                  </div>
+                   </div>
+                   <div class="publisher2 bt-1 border-light">
+                  <form asp-action="SendMassages" method="post">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                <input type="text" name="sessionId" value="@Model.Session.SessionId" hidden readonly />
+                <input type="text" name="isTeacher" value="false" hidden readonly />
+                <input class="publisher-input2" type="text" name="text" placeholder="Write something" style="width:600px; margin-left:150px;">
+                <span class="publisher-btn2 file-group2">
+                  <i class="fa fa-paperclip2 file-browser2"></i>
+                  <input type="file">
+                </span>
+                
+                <button class="publisher-btn text-info" type="submit">
+                     <i class="fa fa-paper-plane"></i>
+                </button>
+               
+                </form>
+              </div>
+                  </div>
 
                                     
                        <div class="tab-pane fade" id="contact6" role="tabpanel" aria-labelledby="contact-tab2">
@@ -490,42 +519,16 @@
 
               <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
 
-              <div class="publisher2 bt-1 border-light">
-                  <form asp-action="SendMassages" method="post">
-                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <input type="text" name="sessionId" value="@Model.Session.SessionId" hidden readonly />
-                <input type="text" name="isTeacher" value="false" hidden readonly />
-                <input class="publisher-input2" type="text" name="text" placeholder="Write something" style="width:600px; margin-left:150px;">
-                <span class="publisher-btn2 file-group2">
-                  <i class="fa fa-paperclip2 file-browser2"></i>
-                  <input type="file">
-                </span>
-                
-                <button class="publisher-btn text-info" type="submit">
-                     <i class="fa fa-paper-plane"></i>
-                </button>
-               
-                </form>
-              </div>
+              
 
              </div>
           </div>
           </div>
           </div>
-          </div>
+         
 
                            </div>
 
-                      </div>
-
-
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </section>
         
         @*TaskMoal*@

@@ -321,7 +321,7 @@ namespace EduPortal.Controllers
 
         //byModal
         [HttpPost]
-        public IActionResult AddToDo(string title, string desc)
+        public IActionResult AddToDo(string title, string desc,DateTime end)
         {
             ToDoList doList = new ToDoList();
 
@@ -334,6 +334,8 @@ namespace EduPortal.Controllers
             doList.StatusId = 1;
             doList.TeacherId = null;
             doList.StudentId = HttpContext.Session.GetInt32("Id");
+            doList.StartDate = DateTime.Now;
+            doList.EndDate = end;
             _context.Add(doList);
             _context.SaveChanges();
 
@@ -423,6 +425,12 @@ namespace EduPortal.Controllers
                 _context.SaveChanges();
             }
             return RedirectToAction("SessionInfo", HttpContext.Session.GetInt32("CurrecntSession"));
+        }
+
+
+        public IActionResult Boot()
+        {
+            return View();
         }
 
         public IActionResult Logout()

@@ -46,6 +46,10 @@
                                 @item.Description</a>
                             </td>
                            
+
+                            <td>
+                                @item.EndDate
+                            </td>
                            
                             
                              <td class="max-texts">
@@ -127,6 +131,11 @@
                             <label>Description</label>
                              <input type="text" class="form-control" name="desc" required>    
                          </div>
+
+                     <div class="col-12 form-group">
+                      <label>Must End At</label>
+                      <input type="date" name="end" class="form-control" required>
+                    </div>
                 </div>
 
                 </div>

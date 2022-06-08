@@ -24,6 +24,7 @@
                         <thead>
                             <th>Name</th>
                             <th>Status & Description </th>
+                            <th>Must End At</th>
                             <th>Actions</th>
                         </thead>
                         <tbody>
@@ -44,6 +45,10 @@
                                 }
                                
                                 @item.Description</a>
+                            </td>
+
+                            <td>
+                                @item.EndDate
                             </td>
                            
                            
@@ -132,6 +137,11 @@
                             <label>Description</label>
                              <input type="text" class="form-control" name="note" required>    
                          </div>
+                         <div class="col-12 form-group">
+                      <label>Must End At</label>
+                      <input type="date" name="end" class="form-control" required>
+                    </div>
+
                 </div>
 
                 </div>
