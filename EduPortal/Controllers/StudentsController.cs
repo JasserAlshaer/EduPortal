@@ -471,7 +471,7 @@ namespace EduPortal.Controllers
             {
                
                 studentTask.Notes = Note;
-                studentTask.TaskId=
+                studentTask.TaskId = id;
                 studentTask.SubmittedAt = DateTime.Now;
                 studentTask.StudentId = HttpContext.Session.GetInt32("Id");
             }
