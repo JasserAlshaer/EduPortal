@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@{
         Layout = "_LayoutStudent";
 }
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -29,6 +30,8 @@
 <script type="text/javascript">
   
         var tasks = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ToDo)); 
+        var tasks2 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Exam));
+        console.log(tasks2);
         var myList=new Array;
         for (var i = 0;i < tasks.length;i++){
             

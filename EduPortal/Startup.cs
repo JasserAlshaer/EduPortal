@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,12 @@ namespace EduPortal
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews().AddNewtonsoftJson(); ;
+            services.AddControllersWithViews();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
             services.AddRazorPages();
             services.AddDbContext<EduPortalContext>(options =>
               options.UseSqlServer(
